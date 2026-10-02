@@ -231,9 +231,11 @@ export function NeuralGame() {
         setNodes(prev => {
           const candidates = prev.filter(n => n.state === "active" && n.layer !== LAYERS.length - 1);
           if (candidates.length === 0) return prev;
-          const target = candidates[Math.floor(Math.random() * candidates.length)];
+          const shuffled = [...candidates].sort(() => Math.random() - 0.5);
+          const targets = shuffled.slice(0, Math.min(2, shuffled.length));
+          const targetIds = new Set(targets.map(t => nodeId(t.layer, t.index)));
           const next = prev.map(n =>
-            n.layer === target.layer && n.index === target.index ? { ...n, state: "dead" as NodeState } : n
+            targetIds.has(nodeId(n.layer, n.index)) ? { ...n, state: "dead" as NodeState } : n
           );
           const allDead = next.filter(n => n.layer !== LAYERS.length - 1).every(n => n.state === "dead");
           if (allDead) setGameOver(true);
