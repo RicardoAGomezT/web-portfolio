@@ -261,7 +261,7 @@ export function ParticleGame() {
   return (
     <>
       <button
-        className="mg-tab pg-tab"
+        className="game-tab pg-tab"
         onClick={() => setOpen(true)}
         aria-label="Destruye a Ultrón"
       >

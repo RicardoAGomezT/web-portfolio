@@ -329,7 +329,7 @@ export function NeuralGame() {
   return (
     <>
       <button
-        className="mg-tab ng-tab"
+        className="game-tab ng-tab"
         onClick={() => { setOpen(true); restart(); }}
         aria-label="No dejes morir a Jarvis"
       >
