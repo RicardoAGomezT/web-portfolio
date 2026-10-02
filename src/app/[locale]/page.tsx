@@ -9,9 +9,10 @@ export default function HomePage() {
       {/* ── Hero ── */}
       <section className="hero">
         <div className="hero-content">
-          <p className="eyebrow">
-            Bucaramanga, Colombia · Disponible para trabajo remoto
-          </p>
+          <div className="status-pill">
+            <span className="sdot" />
+            Disponible para trabajo remoto
+          </div>
           <h1 className="hero-name">
             Ricardo<br />Gómez
           </h1>
@@ -47,42 +48,56 @@ export default function HomePage() {
                 priority
               />
             </div>
-            <div className="fbadge fb1">☁ AWS Certified (×3)</div>
-            <div className="fbadge fb2">⟳ MCP · Bedrock · Agents</div>
-            <div className="fbadge fb3">⎈ Kubernetes · Terraform</div>
           </div>
         </div>
       </section>
 
-      {/* ── Stack ── */}
+      {/* ── Ticker ── */}
+      <div className="ticker-wrap" aria-hidden="true">
+        <div className="ticker-track">
+          {[...Array(2)].map((_, i) => (
+            <div key={i} className="ticker-set">
+              <span className="t-item"><span className="t-sep">◆</span><strong>5+ años</strong>&nbsp;en AWS<span className="t-sep">◆</span></span>
+              <span className="t-item"><strong>6</strong>&nbsp;certificaciones activas<span className="t-sep">◆</span></span>
+              <span className="t-item"><strong>100%</strong>&nbsp;remoto<span className="t-sep">◆</span></span>
+              <span className="t-item">Bucaramanga,&nbsp;<strong>Colombia</strong><span className="t-sep">◆</span></span>
+              <span className="t-item">Bedrock&nbsp;·&nbsp;MCP&nbsp;·&nbsp;<strong>Strands</strong><span className="t-sep">◆</span></span>
+              <span className="t-item"><strong>AIOps</strong>&nbsp;specialist<span className="t-sep">◆</span></span>
+              <span className="t-item">Big Data → DataOps →&nbsp;<strong>AIOps</strong><span className="t-sep">◆</span></span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Stack — Bento Grid ── */}
       <section id="stack" className="sec alt">
         <p className="s-ey">Capacidades técnicas</p>
         <h2 className="s-title">Stack técnico</h2>
-        <div className="stack-grid">
-          <div className="stack-col">
-            <p className="stack-col-title">IA &amp; Agentes</p>
+        <div className="bento">
+          <div className="bento-tile bento-ai reveal">
+            <p className="bento-label">IA &amp; Agentes</p>
             <div className="tags">
               {["AWS Bedrock", "AgentCore", "MCP", "LangChain", "LangGraph",
-                "Strands Agents", "A2A", "RAG Pipelines", "Pinecone"].map(t => (
-                <span key={t} className="tag">{t}</span>
+                "Strands Agents", "A2A", "RAG Pipelines", "Pinecone"].map(tk => (
+                <span key={tk} className="tag">{tk}</span>
               ))}
             </div>
           </div>
-          <div className="stack-col">
-            <p className="stack-col-title">Cloud &amp; SRE / DevOps</p>
+          <div className="bento-tile bento-cloud reveal">
+            <p className="bento-label">Cloud &amp; SRE / DevOps</p>
             <div className="tags">
               {["AWS", "Azure", "Kubernetes", "Docker", "Terraform",
-                "GitHub Actions", "GitLab CI", "Observabilidad", "CloudWatch"].map(t => (
-                <span key={t} className="tag">{t}</span>
+                "GitHub Actions", "GitLab CI", "Observabilidad", "CloudWatch"].map(tk => (
+                <span key={tk} className="tag">{tk}</span>
               ))}
             </div>
           </div>
-          <div className="stack-col">
-            <p className="stack-col-title">Data Engineering</p>
+          <div className="bento-tile bento-data reveal">
+            <p className="bento-label">Data Engineering</p>
             <div className="tags">
               {["Python", "SQL", "ETL / ELT", "DataOps",
-                "Apache Spark", "Airflow", "dbt"].map(t => (
-                <span key={t} className="tag">{t}</span>
+                "Apache Spark", "Airflow", "dbt"].map(tk => (
+                <span key={tk} className="tag">{tk}</span>
               ))}
             </div>
           </div>
@@ -114,7 +129,7 @@ export default function HomePage() {
               chips: ["Next.js", "Vercel", "Bedrock", "Terraform"],
             },
           ].map((p) => (
-            <div key={p.num} className="proj-card">
+            <div key={p.num} className="proj-card reveal">
               <span className="proj-num">{p.num}</span>
               <h3 className="proj-name">{p.name}</h3>
               <p className="proj-desc">{p.desc}</p>
@@ -139,7 +154,7 @@ export default function HomePage() {
             { type: "az", name: "Azure Data Fundamentals", code: "DP-900" },
             { type: "az", name: "Azure Fundamentals", code: "AZ-900" },
           ].map((c) => (
-            <div key={c.code} className="cert">
+            <div key={c.code} className="cert reveal">
               <div className={`cert-ic ${c.type}`}>
                 {c.type === "aws" ? "AWS" : "AZ"}
               </div>
