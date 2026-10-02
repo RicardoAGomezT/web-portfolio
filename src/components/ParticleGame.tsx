@@ -268,7 +268,7 @@ export function ParticleGame() {
         aria-label="Destruye a Ultrón"
       >
         <span>🤖</span>
-        <span className="mg-tab-label">Ultrón</span>
+        <span className="mg-tab-label">Destruye a Ultrón</span>
       </button>
 
       {open && (

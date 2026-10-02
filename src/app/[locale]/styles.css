@@ -573,7 +573,7 @@
 .mg-tab {
   position: fixed;
   right: 0;
-  top: 50%;
+  top: calc(50% + 104px);
   transform: translateY(-50%) rotate(0deg);
   z-index: 200;
   display: flex;
@@ -763,7 +763,7 @@
 }
 
 /* ── Neural Game ── */
-.ng-tab { top: calc(50% + 104px); }
+.ng-tab { top: 50%; }
 .ng-canvas {
   width: 100%;
   height: auto;

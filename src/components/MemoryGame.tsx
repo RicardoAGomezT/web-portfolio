@@ -113,9 +113,9 @@ export function MemoryGame() {
 
   return (
     <>
-      <button className="mg-tab" onClick={() => setOpen(true)} aria-label="Abrir reto">
+      <button className="mg-tab" onClick={() => setOpen(true)} aria-label="Juego de memoria">
         <span>🎮</span>
-        <span className="mg-tab-label">Te tengo un reto</span>
+        <span className="mg-tab-label">¿Cómo estamos de memoria?</span>
       </button>
 
       {open && (

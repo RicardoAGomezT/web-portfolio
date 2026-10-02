@@ -37,26 +37,26 @@ export function NeuralGame() {
   const [open, setOpen] = useState(false);
   const [nodes, setNodes] = useState(buildNodes);
   const [pulses, setPulses] = useState<Pulse[]>([]);
-  const [score, setScore] = useState(0);
   const [lives, setLives] = useState(5);
   const [started, setStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [gameTime, setGameTime] = useState(0);
+  const [finalTime, setFinalTime] = useState(0);
   const rafRef = useRef<number>(0);
   const lastRef = useRef<number>(0);
   const deadTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pulseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const displayTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const gameStartRef = useRef<number | null>(null);
   const speedRef = useRef(1);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const nodesRef = useRef(nodes);
   const pulsesRef = useRef(pulses);
   const livesRef = useRef(lives);
-  const scoreRef = useRef(score);
 
   nodesRef.current = nodes;
   pulsesRef.current = pulses;
   livesRef.current = lives;
-  scoreRef.current = score;
 
   const W = 640;
   const H = 380;
@@ -159,15 +159,13 @@ export function NeuralGame() {
 
       setPulses(prev => {
         const next: Pulse[] = [];
-        let scored = 0;
         let lost = 0;
         for (const p of prev) {
           const newP = p.progress + dt * 0.0018 * speedRef.current;
           if (newP >= 1) {
             const toNode = nodesRef.current[p.to];
             if (toNode.layer === LAYERS.length - 1) {
-              if (toNode.state !== "dead") scored++;
-              else lost++;
+              if (toNode.state === "dead") lost++;
             } else if (toNode.state !== "dead") {
               // spawn pulses to next layer
               const nextL = toNode.layer + 1;
@@ -182,12 +180,14 @@ export function NeuralGame() {
             next.push({ ...p, progress: newP });
           }
         }
-        if (scored > 0) setScore(s => s + scored);
         if (lost > 0) {
           const newLives = livesRef.current - lost;
           livesRef.current = newLives;
           setLives(newLives);
-          if (newLives <= 0) setGameOver(true);
+          if (newLives <= 0) {
+            if (gameStartRef.current) setFinalTime(Math.floor((Date.now() - gameStartRef.current) / 1000));
+            setGameOver(true);
+          }
         }
         return next;
       });
@@ -219,6 +219,15 @@ export function NeuralGame() {
     return () => { if (pulseTimerRef.current) clearInterval(pulseTimerRef.current); };
   }, [started, gameOver]);
 
+  // display timer
+  useEffect(() => {
+    if (!started || gameOver) return;
+    displayTimerRef.current = setInterval(() => {
+      if (gameStartRef.current) setGameTime(Math.floor((Date.now() - gameStartRef.current) / 1000));
+    }, 500);
+    return () => { if (displayTimerRef.current) clearInterval(displayTimerRef.current); };
+  }, [started, gameOver]);
+
   // kill nodes with increasing frequency
   useEffect(() => {
     if (!started || gameOver) return;
@@ -238,7 +247,10 @@ export function NeuralGame() {
             targetIds.has(nodeId(n.layer, n.index)) ? { ...n, state: "dead" as NodeState } : n
           );
           const allDead = next.filter(n => n.layer !== LAYERS.length - 1).every(n => n.state === "dead");
-          if (allDead) setGameOver(true);
+          if (allDead) {
+            if (gameStartRef.current) setFinalTime(Math.floor((Date.now() - gameStartRef.current) / 1000));
+            setGameOver(true);
+          }
           return next;
         });
         scheduleKill();
@@ -285,12 +297,14 @@ export function NeuralGame() {
   function restart() {
     if (deadTimerRef.current) clearTimeout(deadTimerRef.current);
     if (pulseTimerRef.current) clearInterval(pulseTimerRef.current);
+    if (displayTimerRef.current) clearInterval(displayTimerRef.current);
     setNodes(buildNodes());
     setPulses([]);
-    setScore(0);
     setLives(5);
     setStarted(false);
     setGameOver(false);
+    setGameTime(0);
+    setFinalTime(0);
     livesRef.current = 5;
     speedRef.current = 1;
     gameStartRef.current = null;
@@ -306,7 +320,7 @@ export function NeuralGame() {
         aria-label="No dejes morir a Jarvis"
       >
         <span>🦾</span>
-        <span className="mg-tab-label">Jarvis</span>
+        <span className="mg-tab-label">Salva a Jarvis</span>
       </button>
 
       {open && (
@@ -322,8 +336,8 @@ export function NeuralGame() {
 
             <div className="mg-stats">
               <div className="mg-stat">
-                <span className="mg-stat-label">Score</span>
-                <strong>{score}</strong>
+                <span className="mg-stat-label">Tiempo</span>
+                <strong>{gameTime}s</strong>
               </div>
               <div className="mg-stat">
                 <span className="mg-stat-label">Vidas</span>
@@ -362,7 +376,7 @@ export function NeuralGame() {
                     Dejaste morir a Jarvis, la IA buena.
                   </p>
                   <p className="ng-msg-sub" style={{ marginTop: 8 }}>
-                    Puntuación final: <strong style={{ color: "#00c5de" }}>{score}</strong>
+                    Lo mantuviste vivo <strong style={{ color: "#00c5de" }}>{finalTime}s</strong>
                   </p>
                   <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={restart}>
                     Revivir a Jarvis →
