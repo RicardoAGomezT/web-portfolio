@@ -570,60 +570,93 @@
 .cf-success-sub { color: var(--muted); font-size: 0.9rem; }
 
 /* ── Memory Game ── */
-.mg-tab {
+/* ── Game tabs — círculos flotantes ── */
+.mg-tab, .ng-tab, .pg-tab {
   position: fixed;
-  right: 0;
-  top: calc(50% + 104px);
-  transform: translateY(-50%);
   z-index: 200;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  font-size: 1.5rem;
+  transition: transform 0.18s, box-shadow 0.18s, background 0.18s, border-color 0.18s;
+}
+/* tooltip */
+.mg-tab::after, .ng-tab::after, .pg-tab::after {
+  content: attr(aria-label);
+  position: absolute;
+  white-space: nowrap;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-right: none;
-  border-radius: 10px 0 0 10px;
-  padding: 10px 14px 10px 12px;
-  cursor: pointer;
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 0.68rem;
   font-family: var(--ff-b);
-  font-size: 0.78rem;
   font-weight: 600;
   color: var(--fg);
-  transition: background 0.18s, border-color 0.18s, padding-right 0.2s, box-shadow 0.18s;
-  white-space: nowrap;
-  animation: tab-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.15s, transform 0.15s;
 }
-.mg-tab:hover {
-  background: var(--accent);
+.mg-tab:hover::after, .ng-tab:hover::after, .pg-tab:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+.mg-tab-icon { pointer-events: none; }
+.mg-tab-label { display: none; }
+
+/* Jarvis — derecha arriba */
+.ng-tab {
+  right: 14px;
+  top: 38%;
+  border-color: #00c5de;
+  animation: pulse-jarvis 3s ease-in-out infinite;
+}
+.ng-tab::after { right: calc(100% + 10px); top: 50%; transform: translateY(-50%) scale(0.9); }
+.ng-tab:hover::after { transform: translateY(-50%) scale(1); }
+.ng-tab:hover { background: #00c5de; border-color: #00c5de; transform: scale(1.1); box-shadow: 0 0 20px rgba(0,197,222,0.5); animation: none; }
+@keyframes pulse-jarvis {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,197,222,0.0); }
+  50%      { box-shadow: 0 0 0 6px rgba(0,197,222,0.2); }
+}
+
+/* Ultrón — derecha abajo */
+.pg-tab {
+  right: 14px;
+  top: 62%;
+  border-color: #c0392b;
+  animation: pulse-ultron 3s ease-in-out infinite 1s;
+}
+.pg-tab::after { right: calc(100% + 10px); top: 50%; transform: translateY(-50%) scale(0.9); }
+.pg-tab:hover::after { transform: translateY(-50%) scale(1); }
+.pg-tab:hover { background: #c0392b; border-color: #c0392b; transform: scale(1.1); box-shadow: 0 0 20px rgba(192,57,43,0.5); animation: none; }
+@keyframes pulse-ultron {
+  0%,100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.0); }
+  50%      { box-shadow: 0 0 0 6px rgba(192,57,43,0.2); }
+}
+
+/* Memory — izquierda centro */
+.mg-tab {
+  left: 14px;
+  right: auto;
+  top: 50%;
+  transform: translateY(-50%);
   border-color: var(--accent);
-  color: #000;
-  padding-right: 20px;
-  box-shadow: -4px 0 20px rgba(0,197,222,0.35);
-  animation: none;
+  animation: pulse-memory 3s ease-in-out infinite 2s;
 }
-@keyframes tab-pulse {
-  0%, 100% { box-shadow: -2px 0 8px rgba(0,197,222,0.0); }
-  50%       { box-shadow: -4px 0 14px rgba(0,197,222,0.28); }
+.mg-tab::after { left: calc(100% + 10px); top: 50%; transform: translateY(-50%) scale(0.9); }
+.mg-tab:hover::after { transform: translateY(-50%) scale(1); }
+.mg-tab:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-50%) scale(1.1); box-shadow: 0 0 20px rgba(0,197,222,0.4); animation: none; }
+@keyframes pulse-memory {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,197,222,0.0); }
+  50%      { box-shadow: 0 0 0 6px rgba(0,197,222,0.18); }
 }
-.mg-tab-icon { font-size: 1.1rem; }
-.mg-tab-label { font-size: 0.72rem; }
-
-.ng-tab { border-left-color: #00c5de; }
-.ng-tab:hover { background: #00c5de; border-color: #00c5de; box-shadow: -4px 0 20px rgba(0,197,222,0.45); }
-@keyframes tab-pulse-jarvis {
-  0%, 100% { box-shadow: -2px 0 8px rgba(0,197,222,0.0); }
-  50%       { box-shadow: -4px 0 14px rgba(0,197,222,0.32); }
-}
-.ng-tab { animation: tab-pulse-jarvis 3s ease-in-out infinite; }
-
-.pg-tab { border-left-color: #c0392b; }
-.pg-tab:hover { background: #c0392b; border-color: #c0392b; color: #fff; box-shadow: -4px 0 20px rgba(192,57,43,0.45); }
-@keyframes tab-pulse-ultron {
-  0%, 100% { box-shadow: -2px 0 8px rgba(192,57,43,0.0); }
-  50%       { box-shadow: -4px 0 14px rgba(192,57,43,0.32); }
-}
-.pg-tab { animation: tab-pulse-ultron 3s ease-in-out infinite 1s; }
 
 .mg-overlay {
   position: fixed;
@@ -819,46 +852,11 @@
     width: calc(100% - 16px);
     justify-content: flex-start;
   }
-  /* Tabs en mobile: barra horizontal inferior */
-  .mg-tab, .ng-tab, .pg-tab {
-    position: fixed;
-    top: auto;
-    bottom: env(safe-area-inset-bottom, 0px);
-    right: auto;
-    left: 50%;
-    transform: none;
-    border-radius: 14px 14px 0 0;
-    border: 1px solid var(--border);
-    border-bottom: none;
-    border-left: 1px solid var(--border);
-    border-top: 3px solid var(--accent);
-    flex-direction: column;
-    padding: 8px 12px 6px;
-    gap: 3px;
-    width: 80px;
-    align-items: center;
-    justify-content: center;
-    animation: none;
-  }
-  .ng-tab { border-top-color: #00c5de; left: calc(50% - 88px); }
-  .pg-tab { border-top-color: #c0392b; left: 50%; transform: translateX(-50%); }
-  .mg-tab { border-top-color: var(--accent); left: calc(50% + 88px); transform: translateX(-100%); }
-  .mg-tab:hover, .ng-tab:hover, .pg-tab:hover {
-    padding-right: 12px;
-    box-shadow: 0 -4px 16px rgba(0,197,222,0.2);
-  }
-  .mg-tab-icon { font-size: 1.4rem; }
-  .mg-tab-label {
-    display: block;
-    writing-mode: horizontal-tb;
-    font-size: 0.5rem;
-    letter-spacing: 0.04em;
-    opacity: 0.8;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 68px;
-  }
+  /* Círculos más pequeños en mobile */
+  .mg-tab, .ng-tab, .pg-tab { width: 44px; height: 44px; font-size: 1.25rem; }
+  .ng-tab { right: 10px; }
+  .pg-tab { right: 10px; }
+  .mg-tab { left: 10px; }
   .ng-msg-title { font-size: 1.2rem; }
   .ng-msg-sub { font-size: 0.78rem; }
   .ng-overlay-msg { padding: 16px; gap: 6px; }
@@ -866,7 +864,6 @@
 }
 
 /* ── Neural Game ── */
-.ng-tab { top: 50%; }
 .ng-canvas {
   width: 100%;
   height: auto;
@@ -900,9 +897,6 @@
 .ng-hint { font-size: 0.75rem; color: var(--muted); text-align: center; margin: 0; }
 
 /* ── Particle Game ── */
-.pg-tab {
-  top: calc(50% + 52px);
-}
 .pg-modal {
   width: min(720px, 100%);
 }
