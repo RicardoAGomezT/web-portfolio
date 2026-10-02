@@ -226,7 +226,7 @@ export function NeuralGame() {
 
     function scheduleKill() {
       const elapsed = gameStartRef.current ? (Date.now() - gameStartRef.current) / 1000 : 0;
-      const interval = 3000;
+      const interval = Math.max(400, 3000 - Math.floor(elapsed) * 100);
       deadTimerRef.current = setTimeout(() => {
         setNodes(prev => {
           const candidates = prev.filter(n => n.state === "active" && n.layer !== LAYERS.length - 1);
