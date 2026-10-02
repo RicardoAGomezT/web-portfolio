@@ -786,8 +786,9 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 8px;
-  padding: 24px;
+  gap: 6px;
+  padding: 16px;
+  overflow: hidden;
 }
 .ng-msg-title {
   font-family: var(--ff-d);

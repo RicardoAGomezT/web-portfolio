@@ -316,17 +316,21 @@ export function ParticleGame() {
 
               {!started && !noLives && (
                 <div className="ng-overlay-msg">
-                  <img src="/ultron.webp" alt="Ultrón" style={{ width: 90, height: 135, objectFit: "cover", objectPosition: "top", borderRadius: 10, border: "2px solid #c0392b", marginBottom: 8, boxShadow: "0 0 18px rgba(220,50,50,0.5)" }} />
-                  <p className="ng-msg-title">¿Listo para atacar?</p>
-                  <p className="ng-msg-sub" style={{ color: "#e74c3c", fontStyle: "italic", marginBottom: 4 }}>
-                    Ultrón se liberó del control de Iron Man y su mente artificial amenaza con dominar el mundo.
-                  </p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
+                    <img src="/ultron.webp" alt="Ultrón" style={{ width: 52, height: 78, objectFit: "cover", objectPosition: "top", borderRadius: 8, border: "2px solid #c0392b", boxShadow: "0 0 12px rgba(220,50,50,0.5)", flexShrink: 0 }} />
+                    <div style={{ textAlign: "left" }}>
+                      <p className="ng-msg-title" style={{ fontSize: "1.2rem" }}>¿Listo para atacar?</p>
+                      <p className="ng-msg-sub" style={{ color: "#e74c3c", fontStyle: "italic", fontSize: "0.78rem" }}>
+                        Ultrón se liberó del control de Iron Man y su mente artificial amenaza con dominar el mundo.
+                      </p>
+                    </div>
+                  </div>
                   <p className="ng-msg-sub">
-                    15 nodos del núcleo cognitivo siguen activos — aniquílalos<br />
-                    antes de que la red se regenere.<br />
+                    15 nodos del núcleo cognitivo siguen activos.<br />
+                    Aniquílalos antes de que la red se regenere.<br />
                     <strong style={{ color: "#00c5de" }}>Tienes 60 segundos.</strong>
                   </p>
-                  <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={startRound}>
+                  <button className="btn btn-primary" style={{ marginTop: 8, padding: "10px 22px" }} onClick={startRound}>
                     Atacar →
                   </button>
                 </div>
@@ -334,7 +338,7 @@ export function ParticleGame() {
 
               {done && (
                 <div className="ng-overlay-msg">
-                  <img src="/ultron.webp" alt="Ultrón derrotado" style={{ width: 70, height: 105, objectFit: "cover", objectPosition: "top", borderRadius: 10, border: "2px solid #444", marginBottom: 8, filter: "grayscale(70%) brightness(0.6)" }} />
+                  <img src="/ultron.webp" alt="Ultrón derrotado" style={{ width: 44, height: 66, objectFit: "cover", objectPosition: "top", borderRadius: 8, border: "2px solid #444", marginBottom: 4, filter: "grayscale(70%) brightness(0.6)" }} />
                   <p className="ng-msg-title">¡Ultrón derrotado!</p>
                   <p className="ng-msg-sub">
                     Tiempo: <strong style={{ color: "#00c5de" }}>{finalTime}s</strong>

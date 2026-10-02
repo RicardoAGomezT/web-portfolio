@@ -374,13 +374,17 @@ export function NeuralGame() {
 
               {!started && !gameOver && (
                 <div className="ng-overlay-msg">
-                  <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 110, height: 110, borderRadius: "50%", border: "2px solid #00c5de", marginBottom: 8, objectFit: "cover" }} />
-                  <p className="ng-msg-title">¿Listo?</p>
-                  <p className="ng-msg-sub" style={{ color: "#e74c3c", fontStyle: "italic", marginBottom: 4 }}>
-                    Ultrón ha infiltrado la red neuronal de Jarvis y está apagando sus nodos uno a uno.
-                  </p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
+                    <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 64, height: 64, borderRadius: "50%", border: "2px solid #00c5de", objectFit: "cover", flexShrink: 0, boxShadow: "0 0 12px rgba(0,197,222,0.5)" }} />
+                    <div style={{ textAlign: "left" }}>
+                      <p className="ng-msg-title" style={{ fontSize: "1.2rem" }}>¿Listo?</p>
+                      <p className="ng-msg-sub" style={{ color: "#e74c3c", fontStyle: "italic", fontSize: "0.78rem" }}>
+                        Ultrón ha infiltrado la red neuronal de Jarvis y está apagando sus nodos uno a uno.
+                      </p>
+                    </div>
+                  </div>
                   <p className="ng-msg-sub">Haz click en los nodos rojos para reactivarlos.<br />Si todos caen, Jarvis muere para siempre.</p>
-                  <button className="btn btn-primary" onClick={() => setStarted(true)}>
+                  <button className="btn btn-primary" style={{ marginTop: 8, padding: "10px 22px" }} onClick={() => setStarted(true)}>
                     Proteger a Jarvis →
                   </button>
                 </div>
@@ -388,7 +392,7 @@ export function NeuralGame() {
 
               {gameOver && !noLives && (
                 <div className="ng-overlay-msg">
-                  <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 80, height: 80, borderRadius: "50%", border: "2px solid #444", marginBottom: 6, objectFit: "cover", filter: "grayscale(80%)" }} />
+                  <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 56, height: 56, borderRadius: "50%", border: "2px solid #444", marginBottom: 4, objectFit: "cover", filter: "grayscale(80%)" }} />
                   <p className="ng-msg-title" style={{ color: "#aaa" }}>Un minuto de silencio...</p>
                   <p className="ng-msg-sub" style={{ color: "#888", fontSize: "0.95rem", marginTop: 4 }}>
                     Sin Jarvis, Tony solo es un hombre en una lata de metal.
