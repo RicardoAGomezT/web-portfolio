@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "experience": "Experiencia",
+    "projects": "Proyectos",
+    "certifications": "Certificaciones",
+    "services": "Servicios",
+    "contact": "Contacto"
+  },
+  "home": {
+    "headline": "AI Engineer · AI DevOps · Data Engineer",
+    "subheadline": "Construyo sistemas de inteligencia artificial y operaciones cloud en AWS. Disponible para proyectos remotos y consultoría.",
+    "cta_cv": "Descargar CV",
+    "cta_contact": "Contactar"
+  },
+  "about": {
+    "title": "Sobre mí"
+  },
+  "experience": {
+    "title": "Experiencia"
+  },
+  "projects": {
+    "title": "Proyectos"
+  },
+  "certifications": {
+    "title": "Certificaciones"
+  },
+  "services": {
+    "title": "Servicios"
+  },
+  "contact": {
+    "title": "Contacto",
+    "name": "Nombre",
+    "email": "Correo",
+    "message": "Mensaje",
+    "send": "Enviar mensaje"
+  }
+}
