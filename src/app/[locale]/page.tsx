@@ -133,7 +133,7 @@ export default function HomePage() {
             {
               num: "02",
               name: "Agentes IA en AVAL Digital Labs",
-              desc: "Diseñé e implementé dos sistemas agénticos en producción: Armandito, orquestador de bots con RAG entrenado en lineamientos corporativos del Grupo AVAL; y Orion, agente experto en DevOps con Harness que automatiza pipelines, detecta fallos y ejecuta remedaciones siguiendo las políticas internas del banco.",
+              desc: "Dos sistemas IA en producción para el Grupo AVAL: Armandito, chatbot RAG con conocimiento profundo de DevOps interno y lineamientos corporativos; y Orion, sistema agéntico que razona sobre el estado de los pipelines en Harness, detecta fallos y ejecuta remediaciones autónomas siguiendo las políticas del banco.",
               chips: ["RAG", "Harness", "Agentes", "AVAL"],
             },
             {
