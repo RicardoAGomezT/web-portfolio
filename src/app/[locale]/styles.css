@@ -198,9 +198,9 @@
 .hero-name {
   font-family: var(--ff-d);
   font-weight: 800;
-  font-size: clamp(2.4rem, 4.5vw, 5rem);
-  line-height: 1;
-  letter-spacing: -0.035em;
+  font-size: clamp(2rem, 3.2vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
   margin-bottom: 22px;
   white-space: nowrap;
   position: relative;
