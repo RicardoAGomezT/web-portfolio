@@ -6,6 +6,7 @@ import { routing } from "@/i18n/routing";
 import "../globals.css";
 import "./styles.css";
 import { Nav } from "@/components/Nav";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 export const metadata: Metadata = {
   title: {
@@ -40,6 +41,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body>
         <NextIntlClientProvider messages={messages}>
           <Nav />
+          <ScrollReveal />
           {children}
         </NextIntlClientProvider>
       </body>
