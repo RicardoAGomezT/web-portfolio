@@ -175,7 +175,11 @@ export default function HomePage() {
           ].map((c) => (
             <div key={c.code} className="cert reveal">
               <div className={`cert-ic ${c.type}`}>
-                {c.type === "aws" ? "AWS" : "AZ"}
+                <img
+                  src={c.type === "aws" ? "/logo-aws.svg" : "/logo-azure.svg"}
+                  alt={c.type === "aws" ? "AWS" : "Azure"}
+                  style={{ width: c.type === "aws" ? "38px" : "28px", height: "auto" }}
+                />
               </div>
               <div>
                 <p className="cert-name">{c.name}</p>
