@@ -641,18 +641,17 @@
   50%      { box-shadow: 0 0 0 6px rgba(192,57,43,0.2); }
 }
 
-/* Memory — izquierda centro */
+/* Memory — derecha abajo */
 .mg-tab {
-  left: 14px;
-  right: auto;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 14px;
+  left: auto;
+  top: 86%;
   border-color: var(--accent);
   animation: pulse-memory 3s ease-in-out infinite 2s;
 }
-.mg-tab::after { left: calc(100% + 10px); top: 50%; transform: translateY(-50%) scale(0.9); }
+.mg-tab::after { right: calc(100% + 10px); top: 50%; transform: translateY(-50%) scale(0.9); }
 .mg-tab:hover::after { transform: translateY(-50%) scale(1); }
-.mg-tab:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-50%) scale(1.1); box-shadow: 0 0 20px rgba(0,197,222,0.4); animation: none; }
+.mg-tab:hover { background: var(--accent); border-color: var(--accent); transform: scale(1.1); box-shadow: 0 0 20px rgba(0,197,222,0.4); animation: none; }
 @keyframes pulse-memory {
   0%,100% { box-shadow: 0 0 0 0 rgba(0,197,222,0.0); }
   50%      { box-shadow: 0 0 0 6px rgba(0,197,222,0.18); }
@@ -856,7 +855,7 @@
   .game-tab { width: 44px; height: 44px; font-size: 1.25rem; }
   .ng-tab { right: 10px; }
   .pg-tab { right: 10px; }
-  .mg-tab { left: 10px; }
+  .mg-tab { right: 10px; left: auto; }
   .ng-msg-title { font-size: 1.2rem; }
   .ng-msg-sub { font-size: 0.78rem; }
   .ng-overlay-msg { padding: 16px; gap: 6px; }
