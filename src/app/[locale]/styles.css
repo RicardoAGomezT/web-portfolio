@@ -689,10 +689,8 @@
 
 .mg-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
-  max-width: 400px;
-  margin: 0 auto;
 }
 .mg-card {
   aspect-ratio: 1;
@@ -700,39 +698,28 @@
   border: 2px solid var(--border);
   background: var(--bg);
   cursor: pointer;
-  font-size: 1.5rem;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.15s, transform 0.15s, background 0.15s;
-  perspective: 300px;
-}
-.mg-card:hover:not(.mg-card--face) {
-  border-color: var(--accent);
-  transform: scale(1.05);
-}
-.mg-card-back,
-.mg-card-front {
-  position: absolute;
-  inset: 0;
+  font-size: 1.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  backface-visibility: hidden;
-  transition: opacity 0.2s, transform 0.2s;
-}
-.mg-card-back {
   font-family: var(--ff-m);
-  font-size: 1rem;
   font-weight: 700;
   color: var(--muted);
-  opacity: 1;
+  transition: border-color 0.15s, transform 0.12s, background 0.15s;
 }
-.mg-card-front { opacity: 0; transform: scale(0.7); }
-.mg-card--face .mg-card-back { opacity: 0; }
-.mg-card--face .mg-card-front { opacity: 1; transform: scale(1); }
-.mg-card--matched {
+.mg-card:hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: scale(1.06);
+}
+.mg-flipped {
+  border-color: var(--border);
+  color: var(--fg);
+  background: var(--surface);
+}
+.mg-matched {
   border-color: var(--accent);
   background: var(--accent-dim);
+  cursor: default;
 }
 
 .mg-win {
@@ -762,8 +749,8 @@
   color: var(--accent);
 }
 
-@media (max-width: 480px) {
-  .mg-grid { grid-template-columns: repeat(4, 1fr); gap: 7px; }
+@media (max-width: 540px) {
+  .mg-grid { gap: 7px; }
   .mg-card { font-size: 1.3rem; }
   .mg-modal { padding: 20px 16px 24px; }
   .mg-tab-label { display: none; }

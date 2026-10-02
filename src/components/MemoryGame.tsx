@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const EMOJIS = ["🤖", "🧠", "💡", "🔥", "⚡", "🚀", "🎯", "💻"];
+const EMOJIS = ["🤖", "🧠", "💡", "🔥", "⚡", "🚀", "🎯", "💻", "🔮", "✨"];
 
 type Card = { id: number; emoji: string; flipped: boolean; matched: boolean };
 
@@ -38,6 +38,7 @@ export function MemoryGame() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startGame = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
     setCards(buildDeck());
     setSelected([]);
     setMoves(0);
@@ -49,34 +50,37 @@ export function MemoryGame() {
   }, []);
 
   useEffect(() => {
-    if (open) startGame();
-  }, [open, startGame]);
+    if (open && cards.length === 0) startGame();
+  }, [open, cards.length, startGame]);
 
   useEffect(() => {
     if (startTime !== null && !done) {
       timerRef.current = setInterval(() => {
         setElapsed(Date.now() - startTime);
-      }, 100);
+      }, 200);
     }
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [startTime, done]);
 
-  function flip(id: number) {
+  function flip(idx: number) {
     if (lockRef.current) return;
-    const card = cards[id];
-    if (card.flipped || card.matched) return;
+    const card = cards[idx];
+    if (!card || card.flipped || card.matched) return;
+    if (selected.length === 1 && selected[0] === idx) return;
 
     if (startTime === null) setStartTime(Date.now());
 
-    const next = cards.map((c, i) => i === id ? { ...c, flipped: true } : c);
-    const newSel = [...selected, id];
+    const next = cards.map((c, i) => i === idx ? { ...c, flipped: true } : c);
+    const newSel = [...selected, idx];
     setCards(next);
     setSelected(newSel);
 
     if (newSel.length === 2) {
       lockRef.current = true;
-      setMoves((m) => m + 1);
+      const newMoves = moves + 1;
+      setMoves(newMoves);
       const [a, b] = newSel;
+
       if (next[a].emoji === next[b].emoji) {
         const matched = next.map((c, i) =>
           i === a || i === b ? { ...c, matched: true } : c
@@ -92,9 +96,9 @@ export function MemoryGame() {
         }
       } else {
         setTimeout(() => {
-          setCards(next.map((c, i) =>
-            i === a || i === b ? { ...c, flipped: false } : c
-          ));
+          setCards((prev) =>
+            prev.map((c, i) => i === a || i === b ? { ...c, flipped: false } : c)
+          );
           setSelected([]);
           lockRef.current = false;
         }, 900);
@@ -102,43 +106,55 @@ export function MemoryGame() {
     }
   }
 
+  const msg =
+    moves <= 12 ? "¡Memoria de elefante! 🧠"
+    : moves <= 20 ? "¡Muy bien jugado! 🎯"
+    : "¡Persistencia es clave! 🚀";
+
   return (
     <>
-      {/* Sticky tab */}
-      <button className="mg-tab" onClick={() => setOpen(true)} aria-label="Abrir juego de memoria">
-        <span className="mg-tab-icon">🎮</span>
+      <button className="mg-tab" onClick={() => setOpen(true)} aria-label="Abrir reto">
+        <span>🎮</span>
         <span className="mg-tab-label">Te tengo un reto</span>
       </button>
 
-      {/* Modal */}
       {open && (
-        <div className="mg-overlay" onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
+        <div
+          className="mg-overlay"
+          onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
+        >
           <div className="mg-modal">
             <div className="mg-header">
               <div>
                 <h2 className="mg-title">Encuentra todos los pares</h2>
-                <p className="mg-subtitle">8 pares · 16 cartas · ¿cuánto tardas?</p>
+                <p className="mg-subtitle">10 pares · 20 cartas · ¿cuánto tardas?</p>
               </div>
-              <button className="mg-close" onClick={() => setOpen(false)} aria-label="Cerrar">✕</button>
+              <button className="mg-close" onClick={() => setOpen(false)}>✕</button>
             </div>
 
             {!done ? (
               <>
                 <div className="mg-stats">
-                  <span className="mg-stat"><span className="mg-stat-label">Tiempo</span><strong>{formatTime(elapsed)}</strong></span>
-                  <span className="mg-stat"><span className="mg-stat-label">Movidas</span><strong>{moves}</strong></span>
+                  <div className="mg-stat">
+                    <span className="mg-stat-label">Tiempo</span>
+                    <strong>{formatTime(elapsed)}</strong>
+                  </div>
+                  <div className="mg-stat">
+                    <span className="mg-stat-label">Movidas</span>
+                    <strong>{moves}</strong>
+                  </div>
                   <button className="mg-restart" onClick={startGame}>↺ Reiniciar</button>
                 </div>
+
                 <div className="mg-grid">
                   {cards.map((card, i) => (
                     <button
                       key={card.id}
-                      className={`mg-card ${card.flipped || card.matched ? "mg-card--face" : ""} ${card.matched ? "mg-card--matched" : ""}`}
+                      className={`mg-card${card.matched ? " mg-matched" : ""}${card.flipped ? " mg-flipped" : ""}`}
                       onClick={() => flip(i)}
-                      aria-label={card.flipped || card.matched ? card.emoji : "carta oculta"}
+                      disabled={card.matched}
                     >
-                      <span className="mg-card-back">?</span>
-                      <span className="mg-card-front">{card.emoji}</span>
+                      {card.flipped || card.matched ? card.emoji : "?"}
                     </button>
                   ))}
                 </div>
@@ -149,10 +165,8 @@ export function MemoryGame() {
                 <h3 className="mg-win-title">¡Lo lograste!</h3>
                 <p className="mg-win-time">Tiempo: <strong>{formatTime(finalTime)}</strong></p>
                 <p className="mg-win-moves">Movidas: <strong>{moves}</strong></p>
-                <p className="mg-win-msg">
-                  {moves <= 10 ? "¡Memoria de elefante! 🧠" : moves <= 16 ? "¡Muy bien jugado! 🎯" : "¡Persistencia es clave! 🚀"}
-                </p>
-                <button className="btn btn-primary" onClick={startGame} style={{marginTop:"1.5rem"}}>
+                <p className="mg-win-msg">{msg}</p>
+                <button className="btn btn-primary" onClick={startGame} style={{ marginTop: "1.5rem" }}>
                   Jugar de nuevo
                 </button>
               </div>
