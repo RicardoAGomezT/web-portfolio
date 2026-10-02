@@ -13,7 +13,7 @@ export default function HomePage() {
             <span className="sdot" />
             Disponible para trabajo remoto
           </div>
-          <h1 className="hero-name" style={{whiteSpace:'nowrap', fontSize:'clamp(1.8rem, 3vw, 3.4rem)'}}>
+          <h1 className="hero-name" style={{whiteSpace:'nowrap', fontSize:'clamp(2.4rem, 4.2vw, 4.8rem)'}}>
             Ricardo Gómez
           </h1>
           <p className="hero-roles">
