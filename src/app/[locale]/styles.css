@@ -614,7 +614,7 @@
 /* Jarvis — derecha arriba */
 .ng-tab {
   right: 14px;
-  top: 38%;
+  top: 40%;
   border-color: #00c5de;
   animation: pulse-jarvis 3s ease-in-out infinite;
 }
@@ -629,7 +629,7 @@
 /* Ultrón — derecha abajo */
 .pg-tab {
   right: 14px;
-  top: 62%;
+  top: 54%;
   border-color: #c0392b;
   animation: pulse-ultron 3s ease-in-out infinite 1s;
 }
@@ -645,7 +645,7 @@
 .mg-tab {
   right: 14px;
   left: auto;
-  top: 86%;
+  top: 68%;
   border-color: var(--accent);
   animation: pulse-memory 3s ease-in-out infinite 2s;
 }
@@ -853,9 +853,9 @@
   }
   /* Círculos más pequeños y más juntos en mobile */
   .game-tab { width: 44px; height: 44px; font-size: 1.25rem; }
-  .ng-tab { right: 10px; top: 42%; }
+  .ng-tab { right: 10px; top: 46%; }
   .pg-tab { right: 10px; top: 57%; }
-  .mg-tab { right: 10px; left: auto; top: 72%; }
+  .mg-tab { right: 10px; left: auto; top: 68%; }
   .ng-msg-title { font-size: 1.2rem; }
   .ng-msg-sub { font-size: 0.78rem; }
   .ng-overlay-msg { padding: 16px; gap: 6px; }

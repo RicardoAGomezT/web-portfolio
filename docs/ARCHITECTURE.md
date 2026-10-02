@@ -151,7 +151,7 @@ sequenceDiagram
 | Costo | AWS Budget con alarma a USD 5 · métrica de tokens/día | Tope de gasto controlado |
 | Infra AWS | **Terraform** mínimo en `infra/`: IAM role OIDC, Guardrail y Budget | Lo poco que vive en AWS también queda como código |
 
-> Fuente del conocimiento: `content/assistant/profile.{es,en}.md`, una versión **solo profesional** del perfil (ver §9). Nunca usar `richie_perfil_completo.md` directamente.
+> Fuente del conocimiento: `content/assistant/profile.{es,en}.md`, una versión **solo profesional** del perfil (ver §9).
 
 ---
 

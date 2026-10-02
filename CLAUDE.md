@@ -34,8 +34,7 @@ npx tsc --noEmit # verificar tipos
 4. Merge a `main` → deploy automático a producción
 
 ## Contenido del sitio (lo que se muestra en el frontend)
-El perfil completo de Richie vive en `~/Downloads/richie_perfil_completo.md`.
-Lo que se publica está descrito en `docs/ARCHITECTURE.md §9 (Privacidad)`.
+El contenido publicado está descrito en `docs/ARCHITECTURE.md`.
 **Nunca publicar**: finanzas, salud, dirección exacta, datos de familia, salario esperado.
 
 ## Convención de nombres de ramas
