@@ -1,35 +1,73 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
-type Particle = {
+const COUNT = 40;
+const REPEL = 120;
+
+type Bot = {
+  id: number;
   x: number; y: number;
   vx: number; vy: number;
   r: number;
+  alive: boolean;
+  exploding: number; // 0 = no, 1..0 = fading out
 };
 
-const COUNT = 60;
-const MAX_DIST = 150;
-const REPEL = 140;
-const BLAST = 220;
-
-function make(w: number, h: number): Particle[] {
-  return Array.from({ length: COUNT }, () => ({
-    x: Math.random() * w,
-    y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 1.2,
-    vy: (Math.random() - 0.5) * 1.2,
-    r: Math.random() * 3 + 4,
+function make(w: number, h: number): Bot[] {
+  return Array.from({ length: COUNT }, (_, i) => ({
+    id: i,
+    x: Math.random() * (w - 80) + 40,
+    y: Math.random() * (h - 60) + 30,
+    vx: (Math.random() - 0.5) * 1.5,
+    vy: (Math.random() - 0.5) * 1.5,
+    r: Math.random() * 4 + 8,
+    alive: true,
+    exploding: 0,
   }));
+}
+
+function formatTime(ms: number) {
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  return m > 0 ? `${m}m ${s % 60}s` : `${s}s`;
 }
 
 export function ParticleGame() {
   const [open, setOpen] = useState(false);
+  const [remaining, setRemaining] = useState(COUNT);
+  const [done, setDone] = useState(false);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [finalTime, setFinalTime] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particlesRef = useRef<Particle[]>([]);
-  const mouseRef = useRef({ x: -999, y: -999, clicking: false });
+  const botsRef = useRef<Bot[]>([]);
+  const mouseRef = useRef({ x: -999, y: -999 });
   const rafRef = useRef<number>(0);
-  const [clicks, setClicks] = useState(0);
+  const startTimeRef = useRef<number | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const startGame = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    botsRef.current = make(canvas.offsetWidth, canvas.offsetHeight);
+    setRemaining(COUNT);
+    setDone(false);
+    setStartTime(null);
+    setFinalTime(0);
+    setElapsed(0);
+    startTimeRef.current = null;
+    if (timerRef.current) clearInterval(timerRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    startGame();
+  }, [open, startGame]);
 
   useEffect(() => {
     if (!open) return;
@@ -38,155 +76,219 @@ export function ParticleGame() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      particlesRef.current = make(canvas.width, canvas.height);
-    };
-    resize();
-
-    const accent = "#00c5de";
-    const accentRgb = "0,197,222";
-
     function draw() {
       if (!ctx || !canvas) return;
       const W = canvas.width;
       const H = canvas.height;
       ctx.clearRect(0, 0, W, H);
 
-      const ps = particlesRef.current;
       const { x: mx, y: my } = mouseRef.current;
+      let aliveCount = 0;
 
-      for (const p of ps) {
-        const dx = p.x - mx;
-        const dy = p.y - my;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < REPEL && dist > 0) {
-          const force = (REPEL - dist) / REPEL;
-          p.vx += (dx / dist) * force * 0.6;
-          p.vy += (dy / dist) * force * 0.6;
-        }
-        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-        if (speed > 3) { p.vx *= 0.95; p.vy *= 0.95; }
-        p.vx *= 0.995;
-        p.vy *= 0.995;
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) { p.x = 0; p.vx *= -1; }
-        if (p.x > W) { p.x = W; p.vx *= -1; }
-        if (p.y < 0) { p.y = 0; p.vy *= -1; }
-        if (p.y > H) { p.y = H; p.vy *= -1; }
-      }
+      for (const b of botsRef.current) {
+        if (!b.alive && b.exploding <= 0) continue;
 
-      for (let i = 0; i < ps.length; i++) {
-        for (let j = i + 1; j < ps.length; j++) {
-          const dx = ps[i].x - ps[j].x;
-          const dy = ps[i].y - ps[j].y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < MAX_DIST) {
-            const alpha = (1 - d / MAX_DIST) * 0.5;
+        if (b.alive) {
+          aliveCount++;
+          // repel from mouse
+          const dx = b.x - mx;
+          const dy = b.y - my;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < REPEL && dist > 0) {
+            const f = (REPEL - dist) / REPEL;
+            b.vx += (dx / dist) * f * 0.5;
+            b.vy += (dy / dist) * f * 0.5;
+          }
+          const spd = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
+          if (spd > 2.5) { b.vx *= 0.92; b.vy *= 0.92; }
+          b.vx *= 0.997; b.vy *= 0.997;
+          b.x += b.vx; b.y += b.vy;
+          if (b.x - b.r < 0) { b.x = b.r; b.vx *= -1; }
+          if (b.x + b.r > W) { b.x = W - b.r; b.vx *= -1; }
+          if (b.y - b.r < 0) { b.y = b.r; b.vy *= -1; }
+          if (b.y + b.r > H) { b.y = H - b.r; b.vy *= -1; }
+
+          // draw bot body
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+          ctx.fillStyle = "#c0392b";
+          ctx.fill();
+          ctx.strokeStyle = "#ff6b6b";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+          // eye
+          ctx.beginPath();
+          ctx.arc(b.x, b.y - 1, b.r * 0.38, 0, Math.PI * 2);
+          ctx.fillStyle = "#ff0044";
+          ctx.shadowColor = "#ff0044";
+          ctx.shadowBlur = 6;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        } else if (b.exploding > 0) {
+          // explosion ring fading out
+          const alpha = b.exploding;
+          const ringR = b.r * (1 + (1 - b.exploding) * 4);
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, ringR, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(255,100,0,${alpha})`;
+          ctx.lineWidth = 3;
+          ctx.stroke();
+          for (let k = 0; k < 6; k++) {
+            const angle = (k / 6) * Math.PI * 2 + (1 - b.exploding) * 3;
+            const len = b.r * (1 - b.exploding) * 3;
             ctx.beginPath();
-            ctx.moveTo(ps[i].x, ps[i].y);
-            ctx.lineTo(ps[j].x, ps[j].y);
-            ctx.strokeStyle = `rgba(${accentRgb},${alpha})`;
-            ctx.lineWidth = 0.8;
+            ctx.moveTo(b.x, b.y);
+            ctx.lineTo(b.x + Math.cos(angle) * len, b.y + Math.sin(angle) * len);
+            ctx.strokeStyle = `rgba(255,200,0,${alpha})`;
+            ctx.lineWidth = 2;
             ctx.stroke();
           }
+          b.exploding -= 0.06;
+          if (b.exploding < 0) b.exploding = 0;
         }
-      }
-
-      for (const p of ps) {
-        const dx = p.x - mx;
-        const dy = p.y - my;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const glow = dist < REPEL ? 1 : 0.7;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = dist < REPEL
-          ? `rgba(${accentRgb},${glow})`
-          : accent;
-        ctx.fill();
       }
 
       rafRef.current = requestAnimationFrame(draw);
     }
 
     draw();
-
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-    };
+    return () => cancelAnimationFrame(rafRef.current);
   }, [open]);
 
   function handleMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
     const rect = canvasRef.current!.getBoundingClientRect();
-    mouseRef.current.x = e.clientX - rect.left;
-    mouseRef.current.y = e.clientY - rect.top;
+    mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
   }
 
   function handleMouseLeave() {
-    mouseRef.current.x = -999;
-    mouseRef.current.y = -999;
+    mouseRef.current = { x: -999, y: -999 };
   }
 
   function handleClick(e: React.MouseEvent<HTMLCanvasElement>) {
     const rect = canvasRef.current!.getBoundingClientRect();
-    const cx = e.clientX - rect.left;
-    const cy = e.clientY - rect.top;
-    for (const p of particlesRef.current) {
-      const dx = p.x - cx;
-      const dy = p.y - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < BLAST && dist > 0) {
-        const force = (BLAST - dist) / BLAST;
-        p.vx += (dx / dist) * force * 6;
-        p.vy += (dy / dist) * force * 6;
+    const scaleX = canvasRef.current!.width / rect.width;
+    const scaleY = canvasRef.current!.height / rect.height;
+    const cx = (e.clientX - rect.left) * scaleX;
+    const cy = (e.clientY - rect.top) * scaleY;
+
+    let hit = false;
+    for (const b of botsRef.current) {
+      if (!b.alive) continue;
+      const dx = b.x - cx;
+      const dy = b.y - cy;
+      if (Math.sqrt(dx * dx + dy * dy) < b.r + 6) {
+        b.alive = false;
+        b.exploding = 1;
+        hit = true;
+
+        if (startTimeRef.current === null) {
+          startTimeRef.current = Date.now();
+          setStartTime(Date.now());
+          timerRef.current = setInterval(() => {
+            if (startTimeRef.current) setElapsed(Date.now() - startTimeRef.current);
+          }, 200);
+        }
+
+        const alive = botsRef.current.filter(x => x.alive).length;
+        setRemaining(alive);
+        if (alive === 0) {
+          const t = Date.now() - (startTimeRef.current ?? Date.now());
+          setFinalTime(t);
+          setDone(true);
+          if (timerRef.current) clearInterval(timerRef.current);
+        }
+        break;
       }
     }
-    setClicks(c => c + 1);
+    return hit;
   }
 
-  function handleTouchMove(e: React.TouchEvent<HTMLCanvasElement>) {
+  function handleTouchStart(e: React.TouchEvent<HTMLCanvasElement>) {
     e.preventDefault();
     const rect = canvasRef.current!.getBoundingClientRect();
-    mouseRef.current.x = e.touches[0].clientX - rect.left;
-    mouseRef.current.y = e.touches[0].clientY - rect.top;
+    const scaleX = canvasRef.current!.width / rect.width;
+    const scaleY = canvasRef.current!.height / rect.height;
+    const cx = (e.touches[0].clientX - rect.left) * scaleX;
+    const cy = (e.touches[0].clientY - rect.top) * scaleY;
+    const synth = { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY } as React.MouseEvent<HTMLCanvasElement>;
+    // reuse same logic inline
+    for (const b of botsRef.current) {
+      if (!b.alive) continue;
+      const dx = b.x - cx;
+      const dy = b.y - cy;
+      if (Math.sqrt(dx * dx + dy * dy) < b.r + 10) {
+        b.alive = false;
+        b.exploding = 1;
+        if (startTimeRef.current === null) {
+          startTimeRef.current = Date.now();
+          setStartTime(Date.now());
+          timerRef.current = setInterval(() => {
+            if (startTimeRef.current) setElapsed(Date.now() - startTimeRef.current);
+          }, 200);
+        }
+        const alive = botsRef.current.filter(x => x.alive).length;
+        setRemaining(alive);
+        if (alive === 0) {
+          const t = Date.now() - (startTimeRef.current ?? Date.now());
+          setFinalTime(t);
+          setDone(true);
+          if (timerRef.current) clearInterval(timerRef.current);
+        }
+        break;
+      }
+    }
+    void synth;
   }
 
   return (
     <>
       <button
         className="mg-tab pg-tab"
-        onClick={() => { setOpen(true); setClicks(0); }}
-        aria-label="Abrir partículas interactivas"
+        onClick={() => setOpen(true)}
+        aria-label="Destruye a Ultrón"
       >
-        <span>✦</span>
-        <span className="mg-tab-label">Partículas</span>
+        <span>🤖</span>
+        <span className="mg-tab-label">Ultrón</span>
       </button>
 
       {open && (
-        <div
-          className="mg-overlay"
-          onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
-        >
+        <div className="mg-overlay" onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
           <div className="mg-modal pg-modal">
             <div className="mg-header">
               <div>
-                <h2 className="mg-title">Campo de partículas</h2>
+                <h2 className="mg-title">Destruye a Ultrón</h2>
                 <p className="mg-subtitle">
-                  mueve el cursor para repeler · click para explotar · explosiones: <strong>{clicks}</strong>
+                  Haz click en cada bot para eliminarlo ·{" "}
+                  <strong>{remaining}</strong> restantes ·{" "}
+                  {startTime ? formatTime(elapsed) : "0s"}
                 </p>
               </div>
               <button className="mg-close" onClick={() => setOpen(false)}>✕</button>
             </div>
-            <canvas
-              ref={canvasRef}
-              className="pg-canvas"
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              onClick={handleClick}
-              onTouchMove={handleTouchMove}
-            />
+
+            <div style={{ position: "relative" }}>
+              <canvas
+                ref={canvasRef}
+                className="pg-canvas ultron-canvas"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleClick}
+                onTouchStart={handleTouchStart}
+              />
+              {done && (
+                <div className="ng-overlay-msg">
+                  <p style={{ fontSize: "2.5rem" }}>⚡</p>
+                  <p className="ng-msg-title">¡Ultrón derrotado!</p>
+                  <p className="ng-msg-sub">Tiempo: <strong style={{ color: "#00c5de" }}>{formatTime(finalTime)}</strong></p>
+                  <p className="ng-msg-sub" style={{ marginTop: 4 }}>
+                    {finalTime < 15000 ? "¡Vengador nivel Dios! 🦾" : finalTime < 30000 ? "¡Iron Man aprobaría esto! 🦾" : "Ultrón se resistió un poco... 😅"}
+                  </p>
+                  <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={() => { startGame(); }}>
+                    Reiniciar ataque →
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

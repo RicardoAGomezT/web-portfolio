@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const LAYERS = [3, 4, 4, 3, 1];
+const LAYERS = [5, 7, 8, 7, 5, 1];
 const TOTAL_NODES = LAYERS.reduce((a, b) => a + b, 0);
 
 type NodeState = "active" | "dead" | "firing";
@@ -56,8 +56,8 @@ export function NeuralGame() {
   livesRef.current = lives;
   scoreRef.current = score;
 
-  const W = 560;
-  const H = 300;
+  const W = 640;
+  const H = 380;
 
   const drawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
