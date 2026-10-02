@@ -22,7 +22,7 @@ function make(w: number, h: number): Bot[] {
     y: Math.random() * (h - 60) + 30,
     vx: (Math.random() - 0.5) * 1.5,
     vy: (Math.random() - 0.5) * 1.5,
-    r: Math.random() * 4 + 8,
+    r: Math.random() * 6 + 18,
     alive: true,
     exploding: 0,
   }));
