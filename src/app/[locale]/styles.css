@@ -819,17 +819,45 @@
     width: calc(100% - 16px);
     justify-content: flex-start;
   }
-  .mg-tab { padding: 12px 10px 12px 8px; gap: 5px; flex-direction: column; }
-  .mg-tab-icon { font-size: 1.3rem; }
+  /* Tabs en mobile: barra horizontal inferior */
+  .mg-tab, .ng-tab, .pg-tab {
+    position: fixed;
+    top: auto;
+    bottom: env(safe-area-inset-bottom, 0px);
+    right: auto;
+    left: 50%;
+    transform: none;
+    border-radius: 14px 14px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-left: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    flex-direction: column;
+    padding: 8px 12px 6px;
+    gap: 3px;
+    width: 80px;
+    align-items: center;
+    justify-content: center;
+    animation: none;
+  }
+  .ng-tab { border-top-color: #00c5de; left: calc(50% - 88px); }
+  .pg-tab { border-top-color: #c0392b; left: 50%; transform: translateX(-50%); }
+  .mg-tab { border-top-color: var(--accent); left: calc(50% + 88px); transform: translateX(-100%); }
+  .mg-tab:hover, .ng-tab:hover, .pg-tab:hover {
+    padding-right: 12px;
+    box-shadow: 0 -4px 16px rgba(0,197,222,0.2);
+  }
+  .mg-tab-icon { font-size: 1.4rem; }
   .mg-tab-label {
     display: block;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    font-size: 0.48rem;
-    letter-spacing: 0.07em;
-    max-height: 56px;
+    writing-mode: horizontal-tb;
+    font-size: 0.5rem;
+    letter-spacing: 0.04em;
+    opacity: 0.8;
+    white-space: nowrap;
     overflow: hidden;
-    opacity: 0.75;
+    text-overflow: ellipsis;
+    max-width: 68px;
   }
   .ng-msg-title { font-size: 1.2rem; }
   .ng-msg-sub { font-size: 0.78rem; }
