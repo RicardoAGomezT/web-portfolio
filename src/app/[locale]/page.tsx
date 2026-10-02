@@ -1,35 +1,218 @@
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 export default function HomePage() {
   const t = useTranslations("home");
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8">
-      <div className="max-w-3xl w-full space-y-6">
-        <h1 className="text-4xl font-bold tracking-tight">
-          Ricardo Gómez
-        </h1>
-        <p className="text-xl text-muted-foreground font-mono">
-          {t("headline")}
-        </p>
-        <p className="text-lg text-gray-600 dark:text-gray-400">
-          {t("subheadline")}
-        </p>
-        <div className="flex gap-4 pt-4">
-          <a
-            href="/cv/richie-gomez-cv-es.pdf"
-            className="px-4 py-2 bg-black text-white dark:bg-white dark:text-black rounded-md font-medium hover:opacity-80 transition-opacity"
-          >
-            {t("cta_cv")}
-          </a>
-          <a
-            href="/contacto"
-            className="px-4 py-2 border border-black dark:border-white rounded-md font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          >
-            {t("cta_contact")}
-          </a>
+    <>
+      {/* ── Hero ── */}
+      <section className="hero">
+        <div className="hero-content">
+          <p className="eyebrow">
+            Bucaramanga, Colombia · Disponible para trabajo remoto
+          </p>
+          <h1 className="hero-name">
+            Ricardo<br />Gómez
+          </h1>
+          <p className="hero-roles">
+            <strong>AI Engineer</strong> · AI DevOps<br />
+            Data Engineer · Senior SRE
+          </p>
+          <p className="hero-bio">
+            Más de 5 años construyendo sistemas en <strong>AWS</strong>.
+            Especializado en <strong>AIOps y agentes de IA</strong>: desde
+            pipelines de datos hasta plataformas que razonan, observan y se
+            autocorrigen en producción.
+          </p>
+          <div className="hero-ctas">
+            <a className="btn btn-primary" href="/cv/richie-gomez-cv-es.pdf">
+              ↓ {t("cta_cv")}
+            </a>
+            <a className="btn btn-outline" href="#contacto">
+              {t("cta_contact")}
+            </a>
+          </div>
         </div>
-      </div>
-    </main>
+
+        <div className="hero-visual">
+          <div className="photo-wrap">
+            <div className="photo-frame">
+              <Image
+                src="/linkedin_foto_perfil.jpg"
+                alt="Ricardo Gómez — AI Engineer"
+                fill
+                sizes="(max-width: 860px) 0px, 320px"
+                className="photo-img"
+                priority
+              />
+            </div>
+            <div className="fbadge fb1">☁ AWS Certified (×3)</div>
+            <div className="fbadge fb2">⟳ MCP · Bedrock · Agents</div>
+            <div className="fbadge fb3">⎈ Kubernetes · Terraform</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Stack ── */}
+      <section id="stack" className="sec alt">
+        <p className="s-ey">Capacidades técnicas</p>
+        <h2 className="s-title">Stack técnico</h2>
+        <div className="stack-grid">
+          <div className="stack-col">
+            <p className="stack-col-title">IA &amp; Agentes</p>
+            <div className="tags">
+              {["AWS Bedrock", "AgentCore", "MCP", "LangChain", "LangGraph",
+                "Strands Agents", "A2A", "RAG Pipelines", "Pinecone"].map(t => (
+                <span key={t} className="tag">{t}</span>
+              ))}
+            </div>
+          </div>
+          <div className="stack-col">
+            <p className="stack-col-title">Cloud &amp; SRE / DevOps</p>
+            <div className="tags">
+              {["AWS", "Azure", "Kubernetes", "Docker", "Terraform",
+                "GitHub Actions", "GitLab CI", "Observabilidad", "CloudWatch"].map(t => (
+                <span key={t} className="tag">{t}</span>
+              ))}
+            </div>
+          </div>
+          <div className="stack-col">
+            <p className="stack-col-title">Data Engineering</p>
+            <div className="tags">
+              {["Python", "SQL", "ETL / ELT", "DataOps",
+                "Apache Spark", "Airflow", "dbt"].map(t => (
+                <span key={t} className="tag">{t}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Projects ── */}
+      <section id="proyectos" className="sec">
+        <p className="s-ey">Portafolio</p>
+        <h2 className="s-title">Proyectos destacados</h2>
+        <div className="proj-grid">
+          {[
+            {
+              num: "01",
+              name: "Plataforma de Trazabilidad EUDR Cacao",
+              desc: "Sistema de trazabilidad basado en IA para exportadores de cacao en Santander que deben cumplir la regulación de deforestación de la UE. Geolocalización, IA documental y dashboards de cumplimiento.",
+              chips: ["AWS", "Bedrock", "Geoespacial", "Compliance"],
+            },
+            {
+              num: "02",
+              name: "AIOps Pipeline — Observabilidad Inteligente",
+              desc: "Plataforma con agentes de IA que detectan anomalías, diagnostican la causa raíz y proponen acciones correctivas sin intervención humana. Integrado con Strands Agents y MCP sobre CloudWatch.",
+              chips: ["Strands", "MCP", "CloudWatch", "AIOps"],
+            },
+            {
+              num: "03",
+              name: "Esta web + Asistente IA",
+              desc: "Portafolio construido con Next.js 15 y Vercel. Incluye un asistente 'Pregúntale a Richie' con Claude Haiku en Amazon Bedrock, guardrails, OIDC y rate limiting sin access keys.",
+              chips: ["Next.js", "Vercel", "Bedrock", "Terraform"],
+            },
+          ].map((p) => (
+            <div key={p.num} className="proj-card">
+              <span className="proj-num">{p.num}</span>
+              <h3 className="proj-name">{p.name}</h3>
+              <p className="proj-desc">{p.desc}</p>
+              <div className="chips">
+                {p.chips.map((c) => <span key={c} className="chip">{c}</span>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Certifications ── */}
+      <section id="certificaciones" className="sec alt">
+        <p className="s-ey">Acreditaciones</p>
+        <h2 className="s-title">Certificaciones</h2>
+        <div className="certs-grid">
+          {[
+            { type: "aws", name: "Solutions Architect Associate", code: "SAA-C03" },
+            { type: "aws", name: "Developer Associate", code: "DVA-C02" },
+            { type: "aws", name: "AI Practitioner", code: "AIF-C01" },
+            { type: "az", name: "Azure AI Fundamentals", code: "AI-900" },
+            { type: "az", name: "Azure Data Fundamentals", code: "DP-900" },
+            { type: "az", name: "Azure Fundamentals", code: "AZ-900" },
+          ].map((c) => (
+            <div key={c.code} className="cert">
+              <div className={`cert-ic ${c.type}`}>
+                {c.type === "aws" ? "AWS" : "AZ"}
+              </div>
+              <div>
+                <p className="cert-name">{c.name}</p>
+                <p className="cert-prov">
+                  {c.type === "aws" ? "Amazon Web Services" : "Microsoft Azure"} · {c.code}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Contact ── */}
+      <section id="contacto" className="sec contact-sec">
+        <p className="s-ey center">Contacto</p>
+        <h2 className="contact-hl">
+          ¿Tienes un<br />proyecto en mente?
+        </h2>
+        <p className="contact-sub">
+          Disponible para roles remotos en AI Engineering, AI DevOps y Data
+          Engineering. También consultoría y proyectos freelance.
+        </p>
+        <a className="btn btn-primary" href="#contacto">
+          Escribir mensaje
+        </a>
+        <div className="social-row">
+          <a
+            className="soc"
+            href="https://linkedin.com/in/ricardogomezt"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+            LinkedIn
+          </a>
+          <a
+            className="soc"
+            href="https://github.com/RicardoAGomezT"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+            </svg>
+            GitHub
+          </a>
+          <span className="soc">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            ricardo.gomezt1108@gmail.com
+          </span>
+          <span className="soc">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Bucaramanga, Colombia
+          </span>
+        </div>
+      </section>
+
+      <footer className="site-footer">
+        <span>© 2026 Ricardo Andrés Gómez Torres</span>
+        <span>Bucaramanga, Colombia · Disponible para trabajo remoto</span>
+      </footer>
+    </>
   );
 }

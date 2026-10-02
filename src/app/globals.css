@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg:           #080f1c;
+  --surface:      #0d1826;
+  --surface-2:    #122030;
+  --accent:       #00c5de;
+  --accent-dim:   rgba(0, 197, 222, 0.13);
+  --accent-border: rgba(0, 197, 222, 0.25);
+  --text:         #dce8f8;
+  --muted:        #5b7899;
+  --border:       #1b2d45;
+  --nav-bg:       rgba(8, 15, 28, 0.88);
+
+  --ff-d: 'Syne', sans-serif;
+  --ff-b: 'DM Sans', system-ui, sans-serif;
+  --ff-m: 'JetBrains Mono', monospace;
+
+  color-scheme: dark;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:           #f0f5fb;
+    --surface:      #ffffff;
+    --surface-2:    #e4edf8;
+    --accent:       #007b90;
+    --accent-dim:   rgba(0, 123, 144, 0.1);
+    --accent-border: rgba(0, 123, 144, 0.3);
+    --text:         #0a1525;
+    --muted:        #5b7899;
+    --border:       #c8d8ea;
+    --nav-bg:       rgba(240, 245, 251, 0.9);
+    color-scheme: light;
   }
 }
 
+:root[data-theme="light"] {
+  --bg:           #f0f5fb;
+  --surface:      #ffffff;
+  --surface-2:    #e4edf8;
+  --accent:       #007b90;
+  --accent-dim:   rgba(0, 123, 144, 0.1);
+  --accent-border: rgba(0, 123, 144, 0.3);
+  --text:         #0a1525;
+  --muted:        #5b7899;
+  --border:       #c8d8ea;
+  --nav-bg:       rgba(240, 245, 251, 0.9);
+  color-scheme: light;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff-b);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
 }
