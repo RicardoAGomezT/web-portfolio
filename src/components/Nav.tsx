@@ -28,10 +28,22 @@ export function Nav() {
     <nav className="site-nav">
       <a className="nav-logo" href="#">
         <span className="nav-logo-mark">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
+          {/* Red neuronal — 3 capas: 3·2·1 nodos */}
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeLinecap="round">
+            <line x1="4" y1="2.5" x2="10" y2="6"   strokeWidth="0.9" strokeOpacity="0.7"/>
+            <line x1="4" y1="9"   x2="10" y2="6"   strokeWidth="0.9" strokeOpacity="0.7"/>
+            <line x1="4" y1="15.5" x2="10" y2="6"  strokeWidth="0.9" strokeOpacity="0.7"/>
+            <line x1="4" y1="2.5" x2="10" y2="12"  strokeWidth="0.9" strokeOpacity="0.7"/>
+            <line x1="4" y1="9"   x2="10" y2="12"  strokeWidth="0.9" strokeOpacity="0.7"/>
+            <line x1="4" y1="15.5" x2="10" y2="12" strokeWidth="0.9" strokeOpacity="0.7"/>
+            <line x1="10" y1="6"  x2="15" y2="9"   strokeWidth="0.9" strokeOpacity="0.7"/>
+            <line x1="10" y1="12" x2="15" y2="9"   strokeWidth="0.9" strokeOpacity="0.7"/>
+            <circle cx="4"  cy="2.5"  r="1.6" fill="currentColor" stroke="none"/>
+            <circle cx="4"  cy="9"    r="1.6" fill="currentColor" stroke="none"/>
+            <circle cx="4"  cy="15.5" r="1.6" fill="currentColor" stroke="none"/>
+            <circle cx="10" cy="6"    r="1.6" fill="currentColor" stroke="none"/>
+            <circle cx="10" cy="12"   r="1.6" fill="currentColor" stroke="none"/>
+            <circle cx="15" cy="9"    r="2"   fill="currentColor" stroke="none"/>
           </svg>
         </span>
         <span className="nav-logo-text">
