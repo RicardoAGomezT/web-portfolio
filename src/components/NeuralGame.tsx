@@ -375,7 +375,7 @@ export function NeuralGame() {
               {!started && !gameOver && (
                 <div className="ng-overlay-msg">
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
-                    <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 64, height: 64, borderRadius: "50%", border: "2px solid #00c5de", objectFit: "cover", flexShrink: 0, boxShadow: "0 0 12px rgba(0,197,222,0.5)" }} />
+                    <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 88, height: 88, borderRadius: "50%", border: "2px solid #00c5de", objectFit: "cover", flexShrink: 0, boxShadow: "0 0 12px rgba(0,197,222,0.5)" }} />
                     <div style={{ textAlign: "left" }}>
                       <p className="ng-msg-title" style={{ fontSize: "1.2rem" }}>¿Listo?</p>
                       <p className="ng-msg-sub" style={{ color: "#e74c3c", fontStyle: "italic", fontSize: "0.78rem" }}>
@@ -392,7 +392,7 @@ export function NeuralGame() {
 
               {gameOver && !noLives && (
                 <div className="ng-overlay-msg">
-                  <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 56, height: 56, borderRadius: "50%", border: "2px solid #444", marginBottom: 4, objectFit: "cover", filter: "grayscale(80%)" }} />
+                  <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 76, height: 76, borderRadius: "50%", border: "2px solid #444", marginBottom: 4, objectFit: "cover", filter: "grayscale(80%)" }} />
                   <p className="ng-msg-title" style={{ color: "#aaa" }}>Un minuto de silencio...</p>
                   <p className="ng-msg-sub" style={{ color: "#888", fontSize: "0.95rem", marginTop: 4 }}>
                     Sin Jarvis, Tony solo es un hombre en una lata de metal.

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const EMOJIS = ["🤖", "🧠", "💡", "🔥", "⚡", "🚀", "🎯", "💻", "🔮", "✨"];
+const EMOJIS = ["🤖", "🧠", "💡", "🔥", "⚡", "🚀", "🎯", "💻", "🔮", "✨", "🦾", "🛸", "⚙️", "🌐", "🔬"];
 
 type Card = { id: number; emoji: string; flipped: boolean; matched: boolean };
 
@@ -107,8 +107,8 @@ export function MemoryGame() {
   }
 
   const msg =
-    moves <= 12 ? "¡Memoria de elefante! 🧠"
-    : moves <= 20 ? "¡Muy bien jugado! 🎯"
+    moves <= 18 ? "¡Memoria de elefante! 🧠"
+    : moves <= 30 ? "¡Muy bien jugado! 🎯"
     : "¡Persistencia es clave! 🚀";
 
   return (
@@ -127,7 +127,7 @@ export function MemoryGame() {
             <div className="mg-header">
               <div>
                 <h2 className="mg-title">Encuentra todos los pares</h2>
-                <p className="mg-subtitle">10 pares · 20 cartas · ¿cuánto tardas?</p>
+                <p className="mg-subtitle">15 pares · 30 cartas · ¿cuánto tardas?</p>
               </div>
               <button className="mg-close" onClick={() => setOpen(false)}>✕</button>
             </div>

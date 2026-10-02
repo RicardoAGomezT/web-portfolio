@@ -317,7 +317,7 @@ export function ParticleGame() {
               {!started && !noLives && (
                 <div className="ng-overlay-msg">
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
-                    <img src="/ultron.webp" alt="Ultrón" style={{ width: 52, height: 78, objectFit: "cover", objectPosition: "top", borderRadius: 8, border: "2px solid #c0392b", boxShadow: "0 0 12px rgba(220,50,50,0.5)", flexShrink: 0 }} />
+                    <img src="/ultron.webp" alt="Ultrón" style={{ width: 72, height: 108, objectFit: "cover", objectPosition: "top", borderRadius: 8, border: "2px solid #c0392b", boxShadow: "0 0 12px rgba(220,50,50,0.5)", flexShrink: 0 }} />
                     <div style={{ textAlign: "left" }}>
                       <p className="ng-msg-title" style={{ fontSize: "1.2rem" }}>¿Listo para atacar?</p>
                       <p className="ng-msg-sub" style={{ color: "#e74c3c", fontStyle: "italic", fontSize: "0.78rem" }}>
@@ -338,7 +338,7 @@ export function ParticleGame() {
 
               {done && (
                 <div className="ng-overlay-msg">
-                  <img src="/ultron.webp" alt="Ultrón derrotado" style={{ width: 44, height: 66, objectFit: "cover", objectPosition: "top", borderRadius: 8, border: "2px solid #444", marginBottom: 4, filter: "grayscale(70%) brightness(0.6)" }} />
+                  <img src="/ultron.webp" alt="Ultrón derrotado" style={{ width: 64, height: 96, objectFit: "cover", objectPosition: "top", borderRadius: 8, border: "2px solid #444", marginBottom: 4, filter: "grayscale(70%) brightness(0.6)" }} />
                   <p className="ng-msg-title">¡Ultrón derrotado!</p>
                   <p className="ng-msg-sub">
                     Tiempo: <strong style={{ color: "#00c5de" }}>{finalTime}s</strong>

@@ -21,8 +21,8 @@ export default function HomePage() {
             Ricardo Gómez
           </h1>
           <p className="hero-roles">
-            <strong>AI Engineer</strong> · AI DevOps<br />
-            Data Engineer · Senior SRE
+            <strong>SRE DevOps Senior</strong> · AIOps<br />
+            AI Engineer · Data Engineer
           </p>
           <p className="hero-bio">
             5+ años en <strong>AWS</strong>. Diseño la capa de inteligencia
@@ -31,8 +31,11 @@ export default function HomePage() {
             AIOps y pipelines que se gestionan solos en producción.
           </p>
           <div className="hero-ctas">
-            <a className="btn btn-primary" href="/cv/richie-gomez-cv-es.pdf">
-              ↓ {t("cta_cv")}
+            <a className="btn btn-primary" href="#proyectos">
+              Ver proyectos →
+            </a>
+            <a className="btn btn-outline" href="https://www.linkedin.com/in/ricardo-gomez-torres/" target="_blank" rel="noopener noreferrer">
+              LinkedIn
             </a>
             <a className="btn btn-outline" href="#contacto">
               {t("cta_contact")}
@@ -68,6 +71,12 @@ export default function HomePage() {
               <span className="t-item">Bedrock&nbsp;·&nbsp;MCP&nbsp;·&nbsp;<strong>Strands</strong><span className="t-sep">◆</span></span>
               <span className="t-item"><strong>AIOps</strong>&nbsp;specialist<span className="t-sep">◆</span></span>
               <span className="t-item">Big Data → DataOps →&nbsp;<strong>AIOps</strong><span className="t-sep">◆</span></span>
+              <span className="t-item"><strong>AWS</strong>&nbsp;·&nbsp;Azure<span className="t-sep">◆</span></span>
+              <span className="t-item"><strong>Apache Spark</strong><span className="t-sep">◆</span></span>
+              <span className="t-item"><strong>Python</strong><span className="t-sep">◆</span></span>
+              <span className="t-item"><strong>RAG</strong>&nbsp;Chatbots<span className="t-sep">◆</span></span>
+              <span className="t-item">Sistemas&nbsp;<strong>Agénticos</strong><span className="t-sep">◆</span></span>
+              <span className="t-item"><strong>Harness</strong><span className="t-sep">◆</span></span>
             </div>
           ))}
         </div>

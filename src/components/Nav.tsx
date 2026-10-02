@@ -48,7 +48,7 @@ export function Nav() {
         </span>
         <span className="nav-logo-text">
           <span className="nav-logo-name">Ricardo Gómez</span>
-          <span className="nav-logo-role">AI Engineer · AI DevOps</span>
+          <span className="nav-logo-role">SRE DevOps · AIOps · AI Engineer</span>
         </span>
       </a>
       <ul className="nav-links">
