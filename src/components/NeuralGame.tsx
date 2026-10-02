@@ -83,7 +83,7 @@ export function NeuralGame() {
           ctx.beginPath();
           ctx.moveTo(x1, y1);
           ctx.lineTo(x2, y2);
-          ctx.strokeStyle = alive ? "rgba(0,197,222,0.18)" : "rgba(120,120,140,0.1)";
+          ctx.strokeStyle = alive ? "rgba(0,197,222,0.18)" : "rgba(180,30,30,0.2)";
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -116,16 +116,20 @@ export function NeuralGame() {
       ctx.beginPath();
       ctx.arc(x, y, r, 0, Math.PI * 2);
       if (n.state === "dead") {
-        ctx.fillStyle = "#1a1a2e";
-        ctx.strokeStyle = "#ff4d6d";
-        ctx.lineWidth = 2;
+        // Ultrón corruption — dark metal + red glow
+        ctx.fillStyle = "#1c1010";
+        ctx.strokeStyle = "#c0392b";
+        ctx.lineWidth = 2.5;
         ctx.fill();
         ctx.stroke();
-        ctx.fillStyle = "#ff4d6d";
+        ctx.shadowColor = "#e74c3c";
+        ctx.shadowBlur = 10;
+        ctx.fillStyle = "#e74c3c";
         ctx.font = "bold 11px monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText("✕", x, y);
+        ctx.shadowBlur = 0;
       } else if (n.state === "firing") {
         ctx.fillStyle = "#00c5de";
         ctx.shadowColor = "#00c5de";
@@ -369,7 +373,10 @@ export function NeuralGame() {
                 <div className="ng-overlay-msg">
                   <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 110, height: 110, borderRadius: "50%", border: "2px solid #00c5de", marginBottom: 8, objectFit: "cover" }} />
                   <p className="ng-msg-title">¿Listo?</p>
-                  <p className="ng-msg-sub">Los nodos de Jarvis se apagarán (✕ rojo).<br />Haz click rápido para reactivarlos. Si todos mueren, Jarvis cae.</p>
+                  <p className="ng-msg-sub" style={{ color: "#e74c3c", fontStyle: "italic", marginBottom: 4 }}>
+                    Ultrón ha infiltrado la red neuronal de Jarvis y está apagando sus nodos uno a uno.
+                  </p>
+                  <p className="ng-msg-sub">Haz click en los nodos rojos para reactivarlos.<br />Si todos caen, Jarvis muere para siempre.</p>
                   <button className="btn btn-primary" onClick={() => setStarted(true)}>
                     Proteger a Jarvis →
                   </button>

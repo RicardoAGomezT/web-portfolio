@@ -318,9 +318,11 @@ export function ParticleGame() {
                 <div className="ng-overlay-msg">
                   <img src="/ultron.webp" alt="Ultrón" style={{ width: 90, height: 135, objectFit: "cover", objectPosition: "top", borderRadius: 10, border: "2px solid #c0392b", marginBottom: 8, boxShadow: "0 0 18px rgba(220,50,50,0.5)" }} />
                   <p className="ng-msg-title">¿Listo para atacar?</p>
+                  <p className="ng-msg-sub" style={{ color: "#e74c3c", fontStyle: "italic", marginBottom: 4 }}>
+                    Ultrón se liberó del control de Iron Man y su mente artificial amenaza con dominar el mundo.
+                  </p>
                   <p className="ng-msg-sub">
-                    15 nodos del núcleo cognitivo de Ultrón siguen activos.<br />
-                    Cada uno sostiene su matriz de consciencia — aniquílalos<br />
+                    15 nodos del núcleo cognitivo siguen activos — aniquílalos<br />
                     antes de que la red se regenere.<br />
                     <strong style={{ color: "#00c5de" }}>Tienes 60 segundos.</strong>
                   </p>
