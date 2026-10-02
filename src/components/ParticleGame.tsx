@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const COUNT = 15;
+const COUNT = 25;
 const REPEL = 120;
 const CONNECT_DIST = 140;
-const TIME_LIMIT = 60;
+const TIME_LIMIT = 25;
 
 type Bot = {
   id: number;
@@ -86,7 +86,7 @@ export function ParticleGame() {
             ctx.beginPath();
             ctx.moveTo(alive[i].x, alive[i].y);
             ctx.lineTo(alive[j].x, alive[j].y);
-            ctx.strokeStyle = `rgba(0,197,222,${alpha * 1.2})`;
+            ctx.strokeStyle = `rgba(255,255,255,${alpha * 1.2})`;
             ctx.lineWidth = 2;
             ctx.stroke();
           }
@@ -281,7 +281,7 @@ export function ParticleGame() {
                     <strong style={{ color: timeLeft <= 10 ? "#ff4d6d" : "inherit" }}>
                       ⏱ {timeLeft}s
                     </strong>
-                  ) : "60s para acabar con todos"}
+                  ) : "25s para acabar con todos"}
                 </p>
               </div>
               <button className="mg-close" onClick={() => setOpen(false)}>✕</button>
@@ -326,9 +326,9 @@ export function ParticleGame() {
                     </div>
                   </div>
                   <p className="ng-msg-sub">
-                    15 nodos del núcleo cognitivo siguen activos.<br />
+                    25 nodos del núcleo cognitivo siguen activos.<br />
                     Aniquílalos antes de que la red se regenere.<br />
-                    <strong style={{ color: "#00c5de" }}>Tienes 60 segundos.</strong>
+                    <strong style={{ color: "#00c5de" }}>Tienes 25 segundos.</strong>
                   </p>
                   <button className="btn btn-primary" style={{ marginTop: 8, padding: "10px 22px" }} onClick={startRound}>
                     Atacar →
