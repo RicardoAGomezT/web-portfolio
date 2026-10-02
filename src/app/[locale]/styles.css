@@ -249,7 +249,7 @@
 }
 .photo-wrap {
   width: 100%;
-  max-width: 300px;
+  max-width: 340px;
 }
 .photo-frame {
   position: relative;
@@ -837,6 +837,15 @@
   gap: 16px;
   flex-wrap: wrap;
 }
+.footer-easter-egg {
+  width: 100%;
+  text-align: center;
+  font-size: 0.62rem;
+  color: var(--muted);
+  opacity: 0.45;
+  font-style: italic;
+  margin-top: 2px;
+}
 
 /* ── Scroll reveal ── */
 .reveal {
@@ -863,8 +872,8 @@
     justify-content: flex-start;
   }
   .photo-wrap {
-    width: 88px;
-    max-width: 88px;
+    width: 104px;
+    max-width: 104px;
   }
   .photo-frame {
     border-radius: 50%;
