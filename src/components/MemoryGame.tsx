@@ -148,14 +148,15 @@ export function MemoryGame() {
 
                 <div className="mg-grid">
                   {cards.map((card, i) => (
-                    <button
-                      key={card.id}
-                      className={`mg-card${card.matched ? " mg-matched" : ""}${card.flipped ? " mg-flipped" : ""}`}
-                      onClick={() => flip(i)}
-                      disabled={card.matched}
-                    >
-                      {card.flipped || card.matched ? card.emoji : "?"}
-                    </button>
+                    <div key={card.id} className="mg-grid-cell">
+                      <button
+                        className={`mg-card${card.matched ? " mg-matched" : ""}${card.flipped ? " mg-flipped" : ""}`}
+                        onClick={() => flip(i)}
+                        disabled={card.matched}
+                      >
+                        {card.flipped || card.matched ? card.emoji : "?"}
+                      </button>
+                    </div>
                   ))}
                 </div>
               </>

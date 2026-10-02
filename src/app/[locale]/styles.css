@@ -692,8 +692,13 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
 }
-.mg-card {
+.mg-grid-cell {
   aspect-ratio: 1;
+  width: 100%;
+}
+.mg-card {
+  width: 100%;
+  height: 100%;
   border-radius: 10px;
   border: 2px solid var(--border);
   background: var(--bg);
@@ -706,6 +711,7 @@
   font-weight: 700;
   color: var(--muted);
   transition: border-color 0.15s, transform 0.12s, background 0.15s;
+  padding: 0;
 }
 .mg-card:hover:not(:disabled) {
   border-color: var(--accent);
