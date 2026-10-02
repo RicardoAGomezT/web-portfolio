@@ -137,7 +137,7 @@ export default function HomePage() {
             },
             {
               num: "03",
-              name: "🐱🦊 Harry & Eevee — IAs Personales",
+              name: "🐈🦊 Harry & Eevee — IAs Personales",
               desc: "Dos asistentes de IA personales construidos para uso propio: Harry, enfocado en productividad y razonamiento; y Eevee, orientada a creatividad y compañía. Ambos con memoria persistente, personalidad definida y acceso a herramientas — una exploración práctica de cómo la IA puede adaptarse a una persona específica.",
               chips: ["Agentes", "Memoria", "Claude", "Personalización"],
             },
