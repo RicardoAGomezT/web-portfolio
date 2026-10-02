@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const COUNT = 40;
+const COUNT = 28;
 const REPEL = 120;
 const CONNECT_DIST = 140;
 

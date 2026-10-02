@@ -154,7 +154,7 @@ export function NeuralGame() {
       // increase speed over time
       if (gameStartRef.current) {
         const elapsed = (Date.now() - gameStartRef.current) / 1000;
-        speedRef.current = 1 + elapsed * 0.05;
+        speedRef.current = 1 + elapsed * 0.025;
       }
 
       setPulses(prev => {
@@ -226,7 +226,7 @@ export function NeuralGame() {
 
     function scheduleKill() {
       const elapsed = gameStartRef.current ? (Date.now() - gameStartRef.current) / 1000 : 0;
-      const interval = Math.max(400, 1400 - Math.floor(elapsed / 8) * 180);
+      const interval = Math.max(400, 2800 - Math.floor(elapsed / 8) * 150);
       deadTimerRef.current = setTimeout(() => {
         setNodes(prev => {
           const candidates = prev.filter(n => n.state === "active" && n.layer !== LAYERS.length - 1);
