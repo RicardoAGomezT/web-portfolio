@@ -1,6 +1,6 @@
 <svg viewBox="0 0 60 36" xmlns="http://www.w3.org/2000/svg">
   <!-- AWS wordmark -->
-  <text x="2" y="22" font-family="'Amazon Ember','Arial',sans-serif" font-weight="700" font-size="22" letter-spacing="-0.5" fill="#232F3E">aws</text>
+  <text x="2" y="22" font-family="'Amazon Ember','Arial',sans-serif" font-weight="700" font-size="22" letter-spacing="-0.5" fill="#ffffff">aws</text>
   <!-- Orange smile/arrow -->
   <path d="M6 28 Q30 38 54 28" stroke="#FF9900" stroke-width="2.8" fill="none" stroke-linecap="round"/>
   <path d="M50 25.5 L55 28 L50 30.5" fill="#FF9900"/>
