@@ -13,8 +13,8 @@ export default function HomePage() {
             <span className="sdot" />
             Disponible para trabajo remoto
           </div>
-          <h1 className="hero-name">
-            Ricardo<br />Gómez
+          <h1 className="hero-name" style={{whiteSpace:'nowrap', fontSize:'clamp(1.8rem, 3vw, 3.4rem)'}}>
+            Ricardo Gómez
           </h1>
           <p className="hero-roles">
             <strong>AI Engineer</strong> · AI DevOps<br />
