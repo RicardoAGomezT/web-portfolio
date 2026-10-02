@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { ContactForm } from "@/components/ContactForm";
 
 export default function HomePage() {
   const t = useTranslations("home");
@@ -179,9 +180,7 @@ export default function HomePage() {
           Disponible para roles remotos en AI Engineering, AI DevOps y Data
           Engineering. También consultoría y proyectos freelance.
         </p>
-        <a className="btn btn-primary" href="mailto:ricardo.gomezt1108@hotmail.com">
-          Escribir mensaje
-        </a>
+        <ContactForm />
         <div className="social-row">
           <a
             className="soc"

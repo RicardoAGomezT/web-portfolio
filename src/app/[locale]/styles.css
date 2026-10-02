@@ -491,6 +491,84 @@
 }
 .soc:hover { color: var(--accent); }
 
+/* ── Contact form ── */
+.cf {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.cf-field { display: flex; flex-direction: column; gap: 6px; }
+
+.cf-label {
+  font-family: var(--ff-m);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cf-input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 11px 14px;
+  font-family: var(--ff-b);
+  font-size: 0.92rem;
+  color: var(--text);
+  transition: border-color 0.15s;
+  width: 100%;
+  outline: none;
+  resize: none;
+}
+.cf-input::placeholder { color: var(--muted); }
+.cf-input:focus { border-color: var(--accent); }
+.cf-input:disabled { opacity: 0.5; cursor: not-allowed; }
+.cf-textarea { min-height: 88px; line-height: 1.6; }
+
+.cf-submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 4px;
+}
+.cf-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.cf-error {
+  font-size: 0.8rem;
+  color: #e05c5c;
+  text-align: center;
+}
+
+.cf-success {
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px 24px;
+}
+.cf-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #000;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+}
+.cf-success-title {
+  font-family: var(--ff-d);
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.cf-success-sub { color: var(--muted); font-size: 0.9rem; }
+
 /* ── Footer ── */
 .site-footer {
   border-top: 1px solid var(--border);
