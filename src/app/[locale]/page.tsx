@@ -131,7 +131,7 @@ export default function HomePage() {
             },
             {
               num: "02",
-              name: "🌐 Esta web + Asistente IA",
+              name: "🤖✨ Esta web + Asistente IA",
               desc: "Portafolio construido con Next.js 15 y Vercel. Incluye un asistente 'Pregúntale a Richie' con Claude Haiku en Amazon Bedrock, guardrails, OIDC y rate limiting sin access keys.",
               chips: ["Next.js", "Vercel", "Bedrock", "Terraform"],
             },
