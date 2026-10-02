@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 
 const COUNT = 40;
 const REPEL = 120;
+const CONNECT_DIST = 140;
 
 type Bot = {
   id: number;
@@ -84,6 +85,25 @@ export function ParticleGame() {
 
       const { x: mx, y: my } = mouseRef.current;
       let aliveCount = 0;
+
+      // draw connection lines between alive bots
+      const alive = botsRef.current.filter(b => b.alive);
+      for (let i = 0; i < alive.length; i++) {
+        for (let j = i + 1; j < alive.length; j++) {
+          const dx = alive[i].x - alive[j].x;
+          const dy = alive[i].y - alive[j].y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < CONNECT_DIST) {
+            const alpha = (1 - d / CONNECT_DIST) * 0.5;
+            ctx.beginPath();
+            ctx.moveTo(alive[i].x, alive[i].y);
+            ctx.lineTo(alive[j].x, alive[j].y);
+            ctx.strokeStyle = `rgba(220,50,50,${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
 
       for (const b of botsRef.current) {
         if (!b.alive && b.exploding <= 0) continue;

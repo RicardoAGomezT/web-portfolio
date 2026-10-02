@@ -154,7 +154,7 @@ export function NeuralGame() {
         let scored = 0;
         let lost = 0;
         for (const p of prev) {
-          const newP = p.progress + dt * 0.0012;
+          const newP = p.progress + dt * 0.0022;
           if (newP >= 1) {
             const toNode = nodesRef.current[p.to];
             if (toNode.layer === LAYERS.length - 1) {
@@ -207,7 +207,7 @@ export function NeuralGame() {
           setPulses(prev => [...prev, { from: nodeId(src.layer, src.index), to: nextId, progress: 0, id: pulseCounter++ }]);
         }
       }
-    }, 900);
+    }, 600);
     return () => { if (pulseTimerRef.current) clearInterval(pulseTimerRef.current); };
   }, [started, gameOver]);
 
@@ -219,11 +219,15 @@ export function NeuralGame() {
         const candidates = prev.filter(n => n.state === "active" && n.layer !== LAYERS.length - 1);
         if (candidates.length === 0) return prev;
         const target = candidates[Math.floor(Math.random() * candidates.length)];
-        return prev.map(n =>
-          n.layer === target.layer && n.index === target.index ? { ...n, state: "dead" } : n
+        const next = prev.map(n =>
+          n.layer === target.layer && n.index === target.index ? { ...n, state: "dead" as NodeState } : n
         );
+        // check if ALL non-output nodes are dead → Jarvis died
+        const allDead = next.filter(n => n.layer !== LAYERS.length - 1).every(n => n.state === "dead");
+        if (allDead) setGameOver(true);
+        return next;
       });
-    }, 2000);
+    }, 1200);
     return () => { if (deadTimerRef.current) clearInterval(deadTimerRef.current); };
   }, [started, gameOver]);
 
@@ -277,10 +281,10 @@ export function NeuralGame() {
       <button
         className="mg-tab ng-tab"
         onClick={() => { setOpen(true); restart(); }}
-        aria-label="Abrir juego red neuronal"
+        aria-label="No dejes morir a Jarvis"
       >
-        <span>🧠</span>
-        <span className="mg-tab-label">Red neuronal</span>
+        <span>🦾</span>
+        <span className="mg-tab-label">Jarvis</span>
       </button>
 
       {open && (
@@ -288,7 +292,7 @@ export function NeuralGame() {
           <div className="mg-modal">
             <div className="mg-header">
               <div>
-                <h2 className="mg-title">Mantén la red activa</h2>
+                <h2 className="mg-title">No dejes morir a Jarvis</h2>
                 <p className="mg-subtitle">Los nodos se apagan — haz click para reactivarlos</p>
               </div>
               <button className="mg-close" onClick={() => setOpen(false)}>✕</button>
@@ -321,30 +325,32 @@ export function NeuralGame() {
               {!started && !gameOver && (
                 <div className="ng-overlay-msg">
                   <p className="ng-msg-title">¿Listo?</p>
-                  <p className="ng-msg-sub">Los nodos se apagarán (✕ rojo).<br />Haz click en ellos para reactivarlos antes de que los pulsos fallen.</p>
+                  <p className="ng-msg-sub">Los nodos de Jarvis se apagarán (✕ rojo).<br />Haz click rápido para reactivarlos. Si todos mueren, Jarvis cae.</p>
                   <button className="btn btn-primary" onClick={() => setStarted(true)}>
-                    Iniciar red →
+                    Proteger a Jarvis →
                   </button>
                 </div>
               )}
 
               {gameOver && (
                 <div className="ng-overlay-msg">
-                  <p style={{ fontSize: "2.5rem" }}>💀</p>
-                  <p className="ng-msg-title">Red colapsada</p>
-                  <p className="ng-msg-sub">Clasificaciones correctas: <strong>{score}</strong></p>
-                  <p className="ng-msg-sub" style={{ marginTop: 4 }}>
-                    {score >= 20 ? "¡Arquitecto de redes! 🏆" : score >= 10 ? "¡Buen ingeniero! 🎯" : "La red necesita más capas 🔧"}
+                  <p style={{ fontSize: "2.5rem" }}>🕯️</p>
+                  <p className="ng-msg-title" style={{ color: "#aaa" }}>Un minuto de silencio...</p>
+                  <p className="ng-msg-sub" style={{ color: "#888", fontSize: "0.95rem", marginTop: 4 }}>
+                    Dejaste morir a Jarvis, la IA buena.
+                  </p>
+                  <p className="ng-msg-sub" style={{ marginTop: 8 }}>
+                    Puntuación final: <strong style={{ color: "#00c5de" }}>{score}</strong>
                   </p>
                   <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={restart}>
-                    Reentrenar →
+                    Revivir a Jarvis →
                   </button>
                 </div>
               )}
             </div>
 
             <p className="ng-hint">
-              Los pulsos viajan de izquierda a derecha. Si llegan a un nodo muerto en la salida, pierdes una vida.
+              Los pulsos viajan de izquierda a derecha. Haz click en los nodos rojos para reactivarlos. Si todos mueren, Jarvis cae.
             </p>
           </div>
         </div>
