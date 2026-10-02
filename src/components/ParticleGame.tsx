@@ -86,7 +86,7 @@ export function ParticleGame() {
             ctx.beginPath();
             ctx.moveTo(alive[i].x, alive[i].y);
             ctx.lineTo(alive[j].x, alive[j].y);
-            ctx.strokeStyle = `rgba(90,90,100,${alpha * 2})`;
+            ctx.strokeStyle = `rgba(0,197,222,${alpha * 1.2})`;
             ctx.lineWidth = 2;
             ctx.stroke();
           }
@@ -118,16 +118,16 @@ export function ParticleGame() {
 
           ctx.beginPath();
           ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-          ctx.fillStyle = "#c0392b";
+          ctx.fillStyle = "rgba(0,160,185,0.85)";
           ctx.fill();
-          ctx.strokeStyle = "#ff6b6b";
+          ctx.strokeStyle = "#00c5de";
           ctx.lineWidth = 1.5;
           ctx.stroke();
           ctx.beginPath();
           ctx.arc(b.x, b.y - 1, b.r * 0.38, 0, Math.PI * 2);
-          ctx.fillStyle = "#ff0044";
-          ctx.shadowColor = "#ff0044";
-          ctx.shadowBlur = 6;
+          ctx.fillStyle = "#00eeff";
+          ctx.shadowColor = "#00c5de";
+          ctx.shadowBlur = 8;
           ctx.fill();
           ctx.shadowBlur = 0;
         } else if (b.exploding > 0) {

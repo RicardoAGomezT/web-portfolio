@@ -25,9 +25,9 @@ function nodeId(layer: number, index: number) {
 }
 
 function getPos(layer: number, index: number, W: number, H: number) {
-  const x = (layer / (LAYERS.length - 1)) * (W - 80) + 40;
+  const y = (layer / (LAYERS.length - 1)) * (H - 80) + 40;
   const count = LAYERS[layer];
-  const y = ((index + 1) / (count + 1)) * H;
+  const x = ((index + 1) / (count + 1)) * W;
   return { x, y };
 }
 
@@ -57,8 +57,8 @@ export function NeuralGame() {
   nodesRef.current = nodes;
   pulsesRef.current = pulses;
 
-  const W = 640;
-  const H = 380;
+  const W = 400;
+  const H = 520;
 
   const drawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
@@ -365,8 +365,8 @@ export function NeuralGame() {
             <div style={{ position: "relative" }}>
               <canvas
                 ref={canvasRef}
-                width={W}
-                height={H}
+                width={400}
+                height={520}
                 className="ng-canvas"
                 onClick={handleCanvasClick}
                 style={{ cursor: started && !gameOver ? "pointer" : "default" }}
