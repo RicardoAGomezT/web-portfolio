@@ -820,7 +820,7 @@
   height: auto;
   border-radius: 10px;
   border: 1px solid rgba(0,197,222,0.35);
-  background: var(--surface);
+  background: #080f1e;
   cursor: crosshair;
   display: block;
 }
