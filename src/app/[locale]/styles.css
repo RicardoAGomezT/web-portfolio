@@ -758,12 +758,20 @@
 @media (max-width: 540px) {
   .mg-grid { gap: 7px; }
   .mg-card { font-size: 1.3rem; }
-  .mg-modal { padding: 16px 12px 20px; gap: 12px; }
+  .mg-modal {
+    padding: 16px 12px 20px;
+    gap: 12px;
+    min-height: 78dvh;
+    width: calc(100% - 16px);
+    justify-content: flex-start;
+  }
   .mg-tab-label { display: none; }
   .ng-msg-title { font-size: 1.2rem; }
   .ng-msg-sub { font-size: 0.78rem; }
   .ng-overlay-msg { padding: 16px; gap: 6px; }
   .mg-stats { padding: 8px 12px; gap: 12px; }
+  .ng-canvas { aspect-ratio: 4/3; }
+  .pg-canvas { aspect-ratio: 4/3; }
 }
 
 /* ── Neural Game ── */
