@@ -37,7 +37,6 @@ export function NeuralGame() {
   const [open, setOpen] = useState(false);
   const [nodes, setNodes] = useState(buildNodes);
   const [pulses, setPulses] = useState<Pulse[]>([]);
-  const [lives, setLives] = useState(5);
   const [started, setStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [gameTime, setGameTime] = useState(0);
@@ -52,11 +51,9 @@ export function NeuralGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const nodesRef = useRef(nodes);
   const pulsesRef = useRef(pulses);
-  const livesRef = useRef(lives);
 
   nodesRef.current = nodes;
   pulsesRef.current = pulses;
-  livesRef.current = lives;
 
   const W = 640;
   const H = 380;
@@ -159,13 +156,12 @@ export function NeuralGame() {
 
       setPulses(prev => {
         const next: Pulse[] = [];
-        let lost = 0;
         for (const p of prev) {
           const newP = p.progress + dt * 0.0018 * speedRef.current;
           if (newP >= 1) {
             const toNode = nodesRef.current[p.to];
             if (toNode.layer === LAYERS.length - 1) {
-              if (toNode.state === "dead") lost++;
+              // pulse reached output — no action needed
             } else if (toNode.state !== "dead") {
               // spawn pulses to next layer
               const nextL = toNode.layer + 1;
@@ -178,15 +174,6 @@ export function NeuralGame() {
             }
           } else {
             next.push({ ...p, progress: newP });
-          }
-        }
-        if (lost > 0) {
-          const newLives = livesRef.current - lost;
-          livesRef.current = newLives;
-          setLives(newLives);
-          if (newLives <= 0) {
-            if (gameStartRef.current) setFinalTime(Math.floor((Date.now() - gameStartRef.current) / 1000));
-            setGameOver(true);
           }
         }
         return next;
@@ -300,17 +287,13 @@ export function NeuralGame() {
     if (displayTimerRef.current) clearInterval(displayTimerRef.current);
     setNodes(buildNodes());
     setPulses([]);
-    setLives(5);
     setStarted(false);
     setGameOver(false);
     setGameTime(0);
     setFinalTime(0);
-    livesRef.current = 5;
     speedRef.current = 1;
     gameStartRef.current = null;
   }
-
-  const hearts = Array.from({ length: 5 }, (_, i) => i < lives ? "♥" : "♡");
 
   return (
     <>
@@ -336,14 +319,8 @@ export function NeuralGame() {
 
             <div className="mg-stats">
               <div className="mg-stat">
-                <span className="mg-stat-label">Tiempo</span>
+                <span className="mg-stat-label">Tiempo vivo</span>
                 <strong>{gameTime}s</strong>
-              </div>
-              <div className="mg-stat">
-                <span className="mg-stat-label">Vidas</span>
-                <strong style={{ color: lives <= 2 ? "#ff4d6d" : "inherit", letterSpacing: "2px" }}>
-                  {hearts.join("")}
-                </strong>
               </div>
               <button className="mg-restart" onClick={restart}>↺ Reiniciar</button>
             </div>
