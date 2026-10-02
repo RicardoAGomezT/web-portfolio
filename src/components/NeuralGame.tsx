@@ -83,7 +83,7 @@ export function NeuralGame() {
           ctx.beginPath();
           ctx.moveTo(x1, y1);
           ctx.lineTo(x2, y2);
-          ctx.strokeStyle = alive ? "rgba(0,197,222,0.18)" : "rgba(180,30,30,0.2)";
+          ctx.strokeStyle = alive ? "rgba(255,255,255,0.22)" : "rgba(180,30,30,0.2)";
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -137,11 +137,14 @@ export function NeuralGame() {
         ctx.fill();
         ctx.shadowBlur = 0;
       } else {
-        ctx.fillStyle = n.layer === LAYERS.length - 1 ? "rgba(0,197,222,0.3)" : "rgba(0,197,222,0.15)";
-        ctx.strokeStyle = "rgba(0,197,222,0.6)";
+        ctx.fillStyle = n.layer === LAYERS.length - 1 ? "rgba(0,197,222,0.45)" : "rgba(0,197,222,0.25)";
+        ctx.strokeStyle = "#00c5de";
         ctx.lineWidth = 1.5;
+        ctx.shadowColor = "#00c5de";
+        ctx.shadowBlur = n.layer === LAYERS.length - 1 ? 12 : 6;
         ctx.fill();
         ctx.stroke();
+        ctx.shadowBlur = 0;
       }
     }
   }, [W, H]);
