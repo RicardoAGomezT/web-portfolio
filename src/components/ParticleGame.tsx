@@ -267,7 +267,7 @@ export function ParticleGame() {
         onClick={() => setOpen(true)}
         aria-label="Destruye a Ultrón"
       >
-        <span>💪😈</span>
+        <span>🦾😈</span>
         <span className="mg-tab-label">Destruye a Ultrón</span>
       </button>
 
