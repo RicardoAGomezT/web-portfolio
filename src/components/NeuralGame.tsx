@@ -37,8 +37,10 @@ export function NeuralGame() {
   const [open, setOpen] = useState(false);
   const [nodes, setNodes] = useState(buildNodes);
   const [pulses, setPulses] = useState<Pulse[]>([]);
+  const [lives, setLives] = useState(5);
   const [started, setStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [noLives, setNoLives] = useState(false);
   const [gameTime, setGameTime] = useState(0);
   const [finalTime, setFinalTime] = useState(0);
   const rafRef = useRef<number>(0);
@@ -281,7 +283,13 @@ export function NeuralGame() {
     }
   }
 
-  function restart() {
+  function revive() {
+    const newLives = lives - 1;
+    setLives(newLives);
+    if (newLives <= 0) {
+      setNoLives(true);
+      return;
+    }
     if (deadTimerRef.current) clearTimeout(deadTimerRef.current);
     if (pulseTimerRef.current) clearInterval(pulseTimerRef.current);
     if (displayTimerRef.current) clearInterval(displayTimerRef.current);
@@ -291,6 +299,22 @@ export function NeuralGame() {
     setGameOver(false);
     setGameTime(0);
     setFinalTime(0);
+    speedRef.current = 1;
+    gameStartRef.current = null;
+  }
+
+  function restart() {
+    if (deadTimerRef.current) clearTimeout(deadTimerRef.current);
+    if (pulseTimerRef.current) clearInterval(pulseTimerRef.current);
+    if (displayTimerRef.current) clearInterval(displayTimerRef.current);
+    setNodes(buildNodes());
+    setPulses([]);
+    setStarted(false);
+    setGameOver(false);
+    setNoLives(false);
+    setGameTime(0);
+    setFinalTime(0);
+    setLives(5);
     speedRef.current = 1;
     gameStartRef.current = null;
   }
@@ -322,7 +346,13 @@ export function NeuralGame() {
                 <span className="mg-stat-label">Tiempo vivo</span>
                 <strong>{gameTime}s</strong>
               </div>
-              <button className="mg-restart" onClick={restart}>↺ Reiniciar</button>
+              <div className="mg-stat">
+                <span className="mg-stat-label">Vidas</span>
+                <strong style={{ letterSpacing: "2px", color: lives <= 1 ? "#ff4d6d" : "inherit" }}>
+                  {Array.from({ length: 5 }, (_, i) => i < lives ? "♥" : "♡").join("")}
+                </strong>
+              </div>
+              <button className="mg-restart" onClick={restart}>↺ Reset</button>
             </div>
 
             <div style={{ position: "relative" }}>
@@ -345,7 +375,7 @@ export function NeuralGame() {
                 </div>
               )}
 
-              {gameOver && (
+              {gameOver && !noLives && (
                 <div className="ng-overlay-msg">
                   <p style={{ fontSize: "2.5rem" }}>🕯️</p>
                   <p className="ng-msg-title" style={{ color: "#aaa" }}>Un minuto de silencio...</p>
@@ -355,8 +385,24 @@ export function NeuralGame() {
                   <p className="ng-msg-sub" style={{ marginTop: 8 }}>
                     Lo mantuviste vivo <strong style={{ color: "#00c5de" }}>{finalTime}s</strong>
                   </p>
-                  <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={restart}>
+                  <p className="ng-msg-sub" style={{ marginTop: 4, fontSize: "0.8rem", color: "#666" }}>
+                    {Array.from({ length: 5 }, (_, i) => i < lives ? "♥" : "♡").join("")} &nbsp;{lives} {lives === 1 ? "vida restante" : "vidas restantes"}
+                  </p>
+                  <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={revive}>
                     Revivir a Jarvis →
+                  </button>
+                </div>
+              )}
+
+              {noLives && (
+                <div className="ng-overlay-msg">
+                  <p style={{ fontSize: "2.5rem" }}>💀</p>
+                  <p className="ng-msg-title" style={{ color: "#ff4d6d" }}>Sin más vidas</p>
+                  <p className="ng-msg-sub" style={{ color: "#888", fontSize: "0.95rem", marginTop: 4 }}>
+                    Jarvis ya no tiene a quién llamar. Game over definitivo.
+                  </p>
+                  <button className="btn btn-primary" style={{ marginTop: "1rem", opacity: 0.6 }} onClick={restart}>
+                    ↺ Empezar de cero (5 vidas)
                   </button>
                 </div>
               )}
