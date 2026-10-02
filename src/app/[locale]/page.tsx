@@ -34,7 +34,7 @@ export default function HomePage() {
             <a className="btn btn-primary" href="#proyectos">
               Ver proyectos →
             </a>
-            <a className="btn btn-outline" href="https://www.linkedin.com/in/ricardo-gomez-torres/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "7px" }}>
+            <a className="btn" href="https://www.linkedin.com/in/ricardo-gomez-torres/" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "7px", background: "#0077B5", color: "#fff", border: "1px solid #0077B5" }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
               LinkedIn
             </a>
