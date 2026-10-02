@@ -132,9 +132,9 @@ export default function HomePage() {
             },
             {
               num: "02",
-              name: "AIOps Pipeline — Observabilidad Inteligente",
-              desc: "Plataforma con agentes de IA que detectan anomalías, diagnostican la causa raíz y proponen acciones correctivas sin intervención humana. Integrado con Strands Agents y MCP sobre CloudWatch.",
-              chips: ["Strands", "MCP", "CloudWatch", "AIOps"],
+              name: "Agentes IA en AVAL Digital Labs",
+              desc: "Diseñé e implementé dos sistemas agénticos en producción: Armandito, orquestador de bots con RAG entrenado en lineamientos corporativos del Grupo AVAL; y Orion, agente experto en DevOps con Harness que automatiza pipelines, detecta fallos y ejecuta remedaciones siguiendo las políticas internas del banco.",
+              chips: ["RAG", "Harness", "Agentes", "AVAL"],
             },
             {
               num: "03",
