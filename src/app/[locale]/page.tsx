@@ -25,7 +25,7 @@ export default function HomePage() {
             AI Engineer · Data Engineer
           </p>
           <p className="hero-bio">
-            7 años en <strong>AWS</strong>. Diseño la capa de inteligencia
+            +7 años en <strong>AWS</strong>. Diseño la capa de inteligencia
             que transforma infraestructura en sistemas que{" "}
             <strong>perciben, razonan y actúan</strong> — agentes autónomos,
             AIOps y pipelines que se gestionan solos en producción.
@@ -64,7 +64,7 @@ export default function HomePage() {
         <div className="ticker-track">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="ticker-set">
-              <span className="t-item"><span className="t-sep">◆</span><strong>7 años</strong>&nbsp;en AWS<span className="t-sep">◆</span></span>
+              <span className="t-item"><span className="t-sep">◆</span><strong>+7 años</strong>&nbsp;en AWS<span className="t-sep">◆</span></span>
               <span className="t-item"><strong>6</strong>&nbsp;certificaciones activas<span className="t-sep">◆</span></span>
               <span className="t-item"><strong>100%</strong>&nbsp;remoto<span className="t-sep">◆</span></span>
               <span className="t-item">Bucaramanga,&nbsp;<strong>Colombia</strong><span className="t-sep">◆</span></span>
