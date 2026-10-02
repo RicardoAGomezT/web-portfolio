@@ -185,7 +185,7 @@ export default function HomePage() {
         <div className="social-row">
           <a
             className="soc"
-            href="https://linkedin.com/in/ricardogomezt"
+            href="https://www.linkedin.com/in/ricardo-gomez-torres/"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -214,6 +214,12 @@ export default function HomePage() {
             </svg>
             ricardo.gomezt1108@hotmail.com
           </span>
+          <a className="soc" href="tel:+573163118860">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.28h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            +57 316 311 8860
+          </a>
           <span className="soc">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
