@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ContactForm } from "@/components/ContactForm";
+import { MemoryGame } from "@/components/MemoryGame";
 
 export default function HomePage() {
   const t = useTranslations("home");
@@ -22,10 +23,10 @@ export default function HomePage() {
             Data Engineer · Senior SRE
           </p>
           <p className="hero-bio">
-            Más de 5 años construyendo sistemas en <strong>AWS</strong>.
-            Especializado en <strong>AIOps y agentes de IA</strong>: desde
-            pipelines de datos hasta plataformas que razonan, observan y se
-            autocorrigen en producción.
+            5+ años en <strong>AWS</strong>. Diseño la capa de inteligencia
+            que transforma infraestructura en sistemas que{" "}
+            <strong>perciben, razonan y actúan</strong> — agentes autónomos,
+            AIOps y pipelines que se gestionan solos en producción.
           </p>
           <div className="hero-ctas">
             <a className="btn btn-primary" href="/cv/richie-gomez-cv-es.pdf">
@@ -228,6 +229,8 @@ export default function HomePage() {
           </span>
         </div>
       </section>
+
+      <MemoryGame />
 
       <footer className="site-footer">
         <span>© 2026 Ricardo Andrés Gómez Torres</span>
