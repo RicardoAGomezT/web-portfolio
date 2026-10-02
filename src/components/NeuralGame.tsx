@@ -373,7 +373,7 @@ export function NeuralGame() {
                   <p style={{ fontSize: "2.5rem" }}>🕯️</p>
                   <p className="ng-msg-title" style={{ color: "#aaa" }}>Un minuto de silencio...</p>
                   <p className="ng-msg-sub" style={{ color: "#888", fontSize: "0.95rem", marginTop: 4 }}>
-                    Dejaste morir a Jarvis, la IA buena.
+                    Sin Jarvis, Tony solo es un hombre en una lata de metal.
                   </p>
                   <p className="ng-msg-sub" style={{ marginTop: 8 }}>
                     Lo mantuviste vivo <strong style={{ color: "#00c5de" }}>{finalTime}s</strong>
