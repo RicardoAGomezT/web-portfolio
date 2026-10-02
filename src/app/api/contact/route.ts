@@ -4,13 +4,18 @@ import { Resend } from "resend";
 export async function POST(req: Request) {
   try {
     const { name, project, help } = await req.json();
-    const resend = new Resend(process.env.RESEND_API_KEY);
 
     if (!name || !project || !help) {
       return NextResponse.json({ error: "Campos incompletos" }, { status: 400 });
     }
 
-    await resend.emails.send({
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json({ error: "API key no configurada" }, { status: 500 });
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
+    const { error } = await resend.emails.send({
       from: "Portfolio <onboarding@resend.dev>",
       to: "ricardo.gomezt1108@hotmail.com",
       subject: `💬 Nuevo mensaje de ${name}`,
@@ -34,8 +39,13 @@ export async function POST(req: Request) {
       `,
     });
 
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Error al enviar" }, { status: 500 });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Error desconocido";
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

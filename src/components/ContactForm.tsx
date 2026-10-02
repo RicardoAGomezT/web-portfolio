@@ -7,18 +7,27 @@ type Status = "idle" | "sending" | "sent" | "error";
 export function ContactForm() {
   const [form, setForm] = useState({ name: "", project: "", help: "" });
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("sending");
+    setErrorMsg("");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      setStatus(res.ok ? "sent" : "error");
-    } catch {
+      if (res.ok) {
+        setStatus("sent");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg(data.error ?? "Error desconocido");
+        setStatus("error");
+      }
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Error de red");
       setStatus("error");
     }
   }
@@ -87,7 +96,8 @@ export function ContactForm() {
 
       {status === "error" && (
         <p className="cf-error">
-          Algo falló al enviar. Escríbeme directamente a ricardo.gomezt1108@hotmail.com
+          {errorMsg ? `Error: ${errorMsg}` : "Algo falló al enviar."}{" "}
+          Escríbeme a ricardo.gomezt1108@hotmail.com
         </p>
       )}
 
