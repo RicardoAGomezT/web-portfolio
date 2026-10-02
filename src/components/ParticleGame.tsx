@@ -276,7 +276,7 @@ export function ParticleGame() {
               <div>
                 <h2 className="mg-title">Destruye a Ultrón</h2>
                 <p className="mg-subtitle">
-                  <strong>{remaining}</strong> bots restantes ·{" "}
+                  <strong>{remaining}</strong> nodos activos ·{" "}
                   {started ? (
                     <strong style={{ color: timeLeft <= 10 ? "#ff4d6d" : "inherit" }}>
                       ⏱ {timeLeft}s
@@ -319,8 +319,9 @@ export function ParticleGame() {
                   <p style={{ fontSize: "2.5rem" }}>🦾</p>
                   <p className="ng-msg-title">¿Listo para atacar?</p>
                   <p className="ng-msg-sub">
-                    15 bots de Ultrón se mueven por la pantalla.<br />
-                    Haz click en cada uno para destruirlos.<br />
+                    15 nodos del núcleo cognitivo de Ultrón siguen activos.<br />
+                    Cada uno sostiene su matriz de consciencia — aniquílalos<br />
+                    antes de que la red se regenere.<br />
                     <strong style={{ color: "#00c5de" }}>Tienes 60 segundos.</strong>
                   </p>
                   <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={startRound}>
@@ -350,7 +351,7 @@ export function ParticleGame() {
                   <p style={{ fontSize: "2.5rem" }}>💥</p>
                   <p className="ng-msg-title" style={{ color: "#ff4d6d" }}>¡Se acabó el tiempo!</p>
                   <p className="ng-msg-sub" style={{ color: "#888", fontSize: "0.95rem", marginTop: 4 }}>
-                    Ultrón sobrevivió. Quedan {remaining} bots.
+                    La matriz de Ultrón se regeneró. Quedan {remaining} nodos activos.
                   </p>
                   <p className="ng-msg-sub" style={{ marginTop: 4, fontSize: "0.8rem", color: "#666" }}>
                     {hearts} &nbsp;{lives} {lives === 1 ? "vida restante" : "vidas restantes"}
