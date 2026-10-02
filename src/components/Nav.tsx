@@ -48,7 +48,7 @@ export function Nav() {
             <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
           </svg>
         </button>
-        <a className="btn-nav" href="#contacto">Contactar →</a>
+        <a className="btn-nav" href="mailto:ricardo.gomezt1108@hotmail.com">Contactar →</a>
       </div>
     </nav>
   );

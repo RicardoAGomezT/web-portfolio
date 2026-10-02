@@ -479,8 +479,25 @@
 
 /* ── Responsive ── */
 @media (max-width: 860px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; }
-  .hero-visual { display: none; }
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    min-height: auto;
+    gap: 28px;
+  }
+  .hero-visual {
+    order: -1;
+    padding: 0;
+    justify-content: flex-start;
+  }
+  .photo-wrap {
+    width: 88px;
+    max-width: 88px;
+  }
+  .photo-frame {
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+  }
   .bento { grid-template-columns: 1fr; }
   .proj-grid { grid-template-columns: 1fr; }
   .certs-grid { grid-template-columns: 1fr 1fr; }
