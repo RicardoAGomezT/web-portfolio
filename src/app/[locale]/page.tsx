@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ContactForm } from "@/components/ContactForm";
 import { MemoryGame } from "@/components/MemoryGame";
+import { ParticleGame } from "@/components/ParticleGame";
 
 export default function HomePage() {
   const t = useTranslations("home");
@@ -231,6 +232,7 @@ export default function HomePage() {
       </section>
 
       <MemoryGame />
+      <ParticleGame />
 
       <footer className="site-footer">
         <span>© 2026 Ricardo Andrés Gómez Torres</span>
