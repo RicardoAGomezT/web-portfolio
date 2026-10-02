@@ -52,7 +52,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Ticker ── */}
+      {/* ── Stats ticker ── */}
       <div className="ticker-wrap" aria-hidden="true">
         <div className="ticker-track">
           {[...Array(2)].map((_, i) => (
