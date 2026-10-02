@@ -770,7 +770,6 @@
   .ng-msg-sub { font-size: 0.78rem; }
   .ng-overlay-msg { padding: 16px; gap: 6px; }
   .mg-stats { padding: 8px 12px; gap: 12px; }
-  .pg-canvas { aspect-ratio: 4/3; }
 }
 
 /* ── Neural Game ── */
@@ -816,7 +815,7 @@
 }
 .pg-canvas {
   width: 100%;
-  aspect-ratio: 5/3;
+  aspect-ratio: 3/4;
   height: auto;
   border-radius: 10px;
   border: 1px solid rgba(0,197,222,0.35);
