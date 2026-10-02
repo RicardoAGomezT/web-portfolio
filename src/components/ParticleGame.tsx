@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const COUNT = 28;
+const COUNT = 15;
 const REPEL = 120;
 const CONNECT_DIST = 140;
 
@@ -98,8 +98,8 @@ export function ParticleGame() {
             ctx.beginPath();
             ctx.moveTo(alive[i].x, alive[i].y);
             ctx.lineTo(alive[j].x, alive[j].y);
-            ctx.strokeStyle = `rgba(220,50,50,${alpha})`;
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = `rgba(90,90,100,${alpha * 2})`;
+            ctx.lineWidth = 2;
             ctx.stroke();
           }
         }
