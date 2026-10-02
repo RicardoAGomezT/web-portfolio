@@ -316,7 +316,7 @@ export function ParticleGame() {
 
               {!started && !noLives && (
                 <div className="ng-overlay-msg">
-                  <p style={{ fontSize: "2.5rem" }}>🦾</p>
+                  <img src="/ultron.webp" alt="Ultrón" style={{ width: 90, height: 135, objectFit: "cover", objectPosition: "top", borderRadius: 10, border: "2px solid #c0392b", marginBottom: 8, boxShadow: "0 0 18px rgba(220,50,50,0.5)" }} />
                   <p className="ng-msg-title">¿Listo para atacar?</p>
                   <p className="ng-msg-sub">
                     15 nodos del núcleo cognitivo de Ultrón siguen activos.<br />
@@ -332,7 +332,7 @@ export function ParticleGame() {
 
               {done && (
                 <div className="ng-overlay-msg">
-                  <p style={{ fontSize: "2.5rem" }}>⚡</p>
+                  <img src="/ultron.webp" alt="Ultrón derrotado" style={{ width: 70, height: 105, objectFit: "cover", objectPosition: "top", borderRadius: 10, border: "2px solid #444", marginBottom: 8, filter: "grayscale(70%) brightness(0.6)" }} />
                   <p className="ng-msg-title">¡Ultrón derrotado!</p>
                   <p className="ng-msg-sub">
                     Tiempo: <strong style={{ color: "#00c5de" }}>{finalTime}s</strong>

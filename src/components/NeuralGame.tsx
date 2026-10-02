@@ -367,6 +367,7 @@ export function NeuralGame() {
 
               {!started && !gameOver && (
                 <div className="ng-overlay-msg">
+                  <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 110, height: 110, borderRadius: "50%", border: "2px solid #00c5de", marginBottom: 8, objectFit: "cover" }} />
                   <p className="ng-msg-title">¿Listo?</p>
                   <p className="ng-msg-sub">Los nodos de Jarvis se apagarán (✕ rojo).<br />Haz click rápido para reactivarlos. Si todos mueren, Jarvis cae.</p>
                   <button className="btn btn-primary" onClick={() => setStarted(true)}>
@@ -377,7 +378,7 @@ export function NeuralGame() {
 
               {gameOver && !noLives && (
                 <div className="ng-overlay-msg">
-                  <p style={{ fontSize: "2.5rem" }}>🕯️</p>
+                  <img src="/jarvis.webp" alt="J.A.R.V.I.S." style={{ width: 80, height: 80, borderRadius: "50%", border: "2px solid #444", marginBottom: 6, objectFit: "cover", filter: "grayscale(80%)" }} />
                   <p className="ng-msg-title" style={{ color: "#aaa" }}>Un minuto de silencio...</p>
                   <p className="ng-msg-sub" style={{ color: "#888", fontSize: "0.95rem", marginTop: 4 }}>
                     Sin Jarvis, Tony solo es un hombre en una lata de metal.
