@@ -5,6 +5,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 const COUNT = 15;
 const REPEL = 120;
 const CONNECT_DIST = 140;
+const TIME_LIMIT = 60;
 
 type Bot = {
   id: number;
@@ -12,7 +13,7 @@ type Bot = {
   vx: number; vy: number;
   r: number;
   alive: boolean;
-  exploding: number; // 0 = no, 1..0 = fading out
+  exploding: number;
 };
 
 function make(w: number, h: number): Bot[] {
@@ -28,48 +29,37 @@ function make(w: number, h: number): Bot[] {
   }));
 }
 
-function formatTime(ms: number) {
-  const s = Math.floor(ms / 1000);
-  const m = Math.floor(s / 60);
-  return m > 0 ? `${m}m ${s % 60}s` : `${s}s`;
-}
-
 export function ParticleGame() {
   const [open, setOpen] = useState(false);
+  const [lives, setLives] = useState(5);
+  const [started, setStarted] = useState(false);
   const [remaining, setRemaining] = useState(COUNT);
   const [done, setDone] = useState(false);
-  const [startTime, setStartTime] = useState<number | null>(null);
+  const [timeUp, setTimeUp] = useState(false);
+  const [noLives, setNoLives] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(TIME_LIMIT);
   const [finalTime, setFinalTime] = useState(0);
-  const [elapsed, setElapsed] = useState(0);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const botsRef = useRef<Bot[]>([]);
   const mouseRef = useRef({ x: -999, y: -999 });
   const rafRef = useRef<number>(0);
-  const startTimeRef = useRef<number | null>(null);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const startedRef = useRef(false);
+  const timeLeftRef = useRef(TIME_LIMIT);
 
-  const startGame = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    botsRef.current = make(canvas.offsetWidth, canvas.offsetHeight);
-    setRemaining(COUNT);
-    setDone(false);
-    setStartTime(null);
-    setFinalTime(0);
-    setElapsed(0);
-    startTimeRef.current = null;
-    if (timerRef.current) clearInterval(timerRef.current);
-  }, []);
+  startedRef.current = started;
+  timeLeftRef.current = timeLeft;
 
-  useEffect(() => {
-    if (!open) return;
+  const initBots = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
-    startGame();
-  }, [open, startGame]);
+    botsRef.current = make(canvas.offsetWidth, canvas.offsetHeight);
+  }, []);
 
+  // draw loop — always runs while open
   useEffect(() => {
     if (!open) return;
     const canvas = canvasRef.current;
@@ -84,9 +74,7 @@ export function ParticleGame() {
       ctx.clearRect(0, 0, W, H);
 
       const { x: mx, y: my } = mouseRef.current;
-      let aliveCount = 0;
 
-      // draw connection lines between alive bots
       const alive = botsRef.current.filter(b => b.alive);
       for (let i = 0; i < alive.length; i++) {
         for (let j = i + 1; j < alive.length; j++) {
@@ -109,26 +97,25 @@ export function ParticleGame() {
         if (!b.alive && b.exploding <= 0) continue;
 
         if (b.alive) {
-          aliveCount++;
-          // repel from mouse
-          const dx = b.x - mx;
-          const dy = b.y - my;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < REPEL && dist > 0) {
-            const f = (REPEL - dist) / REPEL;
-            b.vx += (dx / dist) * f * 0.5;
-            b.vy += (dy / dist) * f * 0.5;
+          if (startedRef.current) {
+            const dx = b.x - mx;
+            const dy = b.y - my;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < REPEL && dist > 0) {
+              const f = (REPEL - dist) / REPEL;
+              b.vx += (dx / dist) * f * 0.5;
+              b.vy += (dy / dist) * f * 0.5;
+            }
+            const spd = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
+            if (spd > 2.5) { b.vx *= 0.92; b.vy *= 0.92; }
+            b.vx *= 0.997; b.vy *= 0.997;
+            b.x += b.vx; b.y += b.vy;
+            if (b.x - b.r < 0) { b.x = b.r; b.vx *= -1; }
+            if (b.x + b.r > W) { b.x = W - b.r; b.vx *= -1; }
+            if (b.y - b.r < 0) { b.y = b.r; b.vy *= -1; }
+            if (b.y + b.r > H) { b.y = H - b.r; b.vy *= -1; }
           }
-          const spd = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
-          if (spd > 2.5) { b.vx *= 0.92; b.vy *= 0.92; }
-          b.vx *= 0.997; b.vy *= 0.997;
-          b.x += b.vx; b.y += b.vy;
-          if (b.x - b.r < 0) { b.x = b.r; b.vx *= -1; }
-          if (b.x + b.r > W) { b.x = W - b.r; b.vx *= -1; }
-          if (b.y - b.r < 0) { b.y = b.r; b.vy *= -1; }
-          if (b.y + b.r > H) { b.y = H - b.r; b.vy *= -1; }
 
-          // draw bot body
           ctx.beginPath();
           ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
           ctx.fillStyle = "#c0392b";
@@ -136,7 +123,6 @@ export function ParticleGame() {
           ctx.strokeStyle = "#ff6b6b";
           ctx.lineWidth = 1.5;
           ctx.stroke();
-          // eye
           ctx.beginPath();
           ctx.arc(b.x, b.y - 1, b.r * 0.38, 0, Math.PI * 2);
           ctx.fillStyle = "#ff0044";
@@ -145,7 +131,6 @@ export function ParticleGame() {
           ctx.fill();
           ctx.shadowBlur = 0;
         } else if (b.exploding > 0) {
-          // explosion ring fading out
           const alpha = b.exploding;
           const ringR = b.r * (1 + (1 - b.exploding) * 4);
           ctx.beginPath();
@@ -171,9 +156,29 @@ export function ParticleGame() {
       rafRef.current = requestAnimationFrame(draw);
     }
 
+    initBots();
     draw();
     return () => cancelAnimationFrame(rafRef.current);
-  }, [open]);
+  }, [open, initBots]);
+
+  // countdown timer
+  useEffect(() => {
+    if (!started || done || timeUp) return;
+    setTimeLeft(TIME_LIMIT);
+    timeLeftRef.current = TIME_LIMIT;
+    countdownRef.current = setInterval(() => {
+      setTimeLeft(prev => {
+        const next = prev - 1;
+        if (next <= 0) {
+          setTimeUp(true);
+          if (countdownRef.current) clearInterval(countdownRef.current);
+          return 0;
+        }
+        return next;
+      });
+    }, 1000);
+    return () => { if (countdownRef.current) clearInterval(countdownRef.current); };
+  }, [started, done, timeUp]);
 
   function handleMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
     const rect = canvasRef.current!.getBoundingClientRect();
@@ -184,14 +189,8 @@ export function ParticleGame() {
     mouseRef.current = { x: -999, y: -999 };
   }
 
-  function handleClick(e: React.MouseEvent<HTMLCanvasElement>) {
-    const rect = canvasRef.current!.getBoundingClientRect();
-    const scaleX = canvasRef.current!.width / rect.width;
-    const scaleY = canvasRef.current!.height / rect.height;
-    const cx = (e.clientX - rect.left) * scaleX;
-    const cy = (e.clientY - rect.top) * scaleY;
-
-    let hit = false;
+  function killBot(cx: number, cy: number) {
+    if (!started || done || timeUp) return;
     for (const b of botsRef.current) {
       if (!b.alive) continue;
       const dx = b.x - cx;
@@ -199,28 +198,23 @@ export function ParticleGame() {
       if (Math.sqrt(dx * dx + dy * dy) < b.r + 6) {
         b.alive = false;
         b.exploding = 1;
-        hit = true;
-
-        if (startTimeRef.current === null) {
-          startTimeRef.current = Date.now();
-          setStartTime(Date.now());
-          timerRef.current = setInterval(() => {
-            if (startTimeRef.current) setElapsed(Date.now() - startTimeRef.current);
-          }, 200);
-        }
-
-        const alive = botsRef.current.filter(x => x.alive).length;
-        setRemaining(alive);
-        if (alive === 0) {
-          const t = Date.now() - (startTimeRef.current ?? Date.now());
-          setFinalTime(t);
+        const aliveCount = botsRef.current.filter(x => x.alive).length;
+        setRemaining(aliveCount);
+        if (aliveCount === 0) {
+          if (countdownRef.current) clearInterval(countdownRef.current);
+          setFinalTime(TIME_LIMIT - timeLeftRef.current);
           setDone(true);
-          if (timerRef.current) clearInterval(timerRef.current);
         }
         break;
       }
     }
-    return hit;
+  }
+
+  function handleClick(e: React.MouseEvent<HTMLCanvasElement>) {
+    const rect = canvasRef.current!.getBoundingClientRect();
+    const scaleX = canvasRef.current!.width / rect.width;
+    const scaleY = canvasRef.current!.height / rect.height;
+    killBot((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
   }
 
   function handleTouchStart(e: React.TouchEvent<HTMLCanvasElement>) {
@@ -228,37 +222,41 @@ export function ParticleGame() {
     const rect = canvasRef.current!.getBoundingClientRect();
     const scaleX = canvasRef.current!.width / rect.width;
     const scaleY = canvasRef.current!.height / rect.height;
-    const cx = (e.touches[0].clientX - rect.left) * scaleX;
-    const cy = (e.touches[0].clientY - rect.top) * scaleY;
-    const synth = { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY } as React.MouseEvent<HTMLCanvasElement>;
-    // reuse same logic inline
-    for (const b of botsRef.current) {
-      if (!b.alive) continue;
-      const dx = b.x - cx;
-      const dy = b.y - cy;
-      if (Math.sqrt(dx * dx + dy * dy) < b.r + 10) {
-        b.alive = false;
-        b.exploding = 1;
-        if (startTimeRef.current === null) {
-          startTimeRef.current = Date.now();
-          setStartTime(Date.now());
-          timerRef.current = setInterval(() => {
-            if (startTimeRef.current) setElapsed(Date.now() - startTimeRef.current);
-          }, 200);
-        }
-        const alive = botsRef.current.filter(x => x.alive).length;
-        setRemaining(alive);
-        if (alive === 0) {
-          const t = Date.now() - (startTimeRef.current ?? Date.now());
-          setFinalTime(t);
-          setDone(true);
-          if (timerRef.current) clearInterval(timerRef.current);
-        }
-        break;
-      }
-    }
-    void synth;
+    killBot((e.touches[0].clientX - rect.left) * scaleX, (e.touches[0].clientY - rect.top) * scaleY);
   }
+
+  function startRound() {
+    if (countdownRef.current) clearInterval(countdownRef.current);
+    initBots();
+    setRemaining(COUNT);
+    setDone(false);
+    setTimeUp(false);
+    setTimeLeft(TIME_LIMIT);
+    setFinalTime(0);
+    setStarted(true);
+  }
+
+  function revive() {
+    const newLives = lives - 1;
+    setLives(newLives);
+    if (newLives <= 0) { setNoLives(true); return; }
+    startRound();
+  }
+
+  function fullReset() {
+    if (countdownRef.current) clearInterval(countdownRef.current);
+    setLives(5);
+    setStarted(false);
+    setDone(false);
+    setTimeUp(false);
+    setNoLives(false);
+    setTimeLeft(TIME_LIMIT);
+    setRemaining(COUNT);
+    setFinalTime(0);
+    initBots();
+  }
+
+  const hearts = Array.from({ length: 5 }, (_, i) => i < lives ? "♥" : "♡").join("");
 
   return (
     <>
@@ -267,7 +265,7 @@ export function ParticleGame() {
         onClick={() => setOpen(true)}
         aria-label="Destruye a Ultrón"
       >
-        <span>🦾😈</span>
+        <span>🦾</span>
         <span className="mg-tab-label">Destruye a Ultrón</span>
       </button>
 
@@ -278,12 +276,31 @@ export function ParticleGame() {
               <div>
                 <h2 className="mg-title">Destruye a Ultrón</h2>
                 <p className="mg-subtitle">
-                  Haz click en cada bot para eliminarlo ·{" "}
-                  <strong>{remaining}</strong> restantes ·{" "}
-                  {startTime ? formatTime(elapsed) : "0s"}
+                  <strong>{remaining}</strong> bots restantes ·{" "}
+                  {started ? (
+                    <strong style={{ color: timeLeft <= 10 ? "#ff4d6d" : "inherit" }}>
+                      ⏱ {timeLeft}s
+                    </strong>
+                  ) : "60s para acabar con todos"}
                 </p>
               </div>
               <button className="mg-close" onClick={() => setOpen(false)}>✕</button>
+            </div>
+
+            <div className="mg-stats">
+              <div className="mg-stat">
+                <span className="mg-stat-label">Tiempo</span>
+                <strong style={{ color: timeLeft <= 10 && started ? "#ff4d6d" : "inherit" }}>
+                  {started ? `${timeLeft}s` : `${TIME_LIMIT}s`}
+                </strong>
+              </div>
+              <div className="mg-stat">
+                <span className="mg-stat-label">Vidas</span>
+                <strong style={{ letterSpacing: "2px", color: lives <= 1 ? "#ff4d6d" : "inherit" }}>
+                  {hearts}
+                </strong>
+              </div>
+              <button className="mg-restart" onClick={fullReset}>↺ Reset</button>
             </div>
 
             <div style={{ position: "relative" }}>
@@ -294,17 +311,65 @@ export function ParticleGame() {
                 onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
                 onTouchStart={handleTouchStart}
+                style={{ cursor: started && !done && !timeUp ? "crosshair" : "default" }}
               />
+
+              {!started && !noLives && (
+                <div className="ng-overlay-msg">
+                  <p style={{ fontSize: "2.5rem" }}>🦾</p>
+                  <p className="ng-msg-title">¿Listo para atacar?</p>
+                  <p className="ng-msg-sub">
+                    15 bots de Ultrón se mueven por la pantalla.<br />
+                    Haz click en cada uno para destruirlos.<br />
+                    <strong style={{ color: "#00c5de" }}>Tienes 60 segundos.</strong>
+                  </p>
+                  <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={startRound}>
+                    Atacar →
+                  </button>
+                </div>
+              )}
+
               {done && (
                 <div className="ng-overlay-msg">
                   <p style={{ fontSize: "2.5rem" }}>⚡</p>
                   <p className="ng-msg-title">¡Ultrón derrotado!</p>
-                  <p className="ng-msg-sub">Tiempo: <strong style={{ color: "#00c5de" }}>{formatTime(finalTime)}</strong></p>
-                  <p className="ng-msg-sub" style={{ marginTop: 4 }}>
-                    {finalTime < 15000 ? "¡Vengador nivel Dios! 🦾" : finalTime < 30000 ? "¡Iron Man aprobaría esto! 🦾" : "Ultrón se resistió un poco... 😅"}
+                  <p className="ng-msg-sub">
+                    Tiempo: <strong style={{ color: "#00c5de" }}>{finalTime}s</strong>
                   </p>
-                  <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={() => { startGame(); }}>
+                  <p className="ng-msg-sub" style={{ marginTop: 4 }}>
+                    {finalTime < 15 ? "¡Vengador nivel Dios! 🦾" : finalTime < 30 ? "¡Iron Man aprobaría esto! 🦾" : "Ultrón se resistió un poco... 😅"}
+                  </p>
+                  <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={startRound}>
                     Reiniciar ataque →
+                  </button>
+                </div>
+              )}
+
+              {timeUp && !done && !noLives && (
+                <div className="ng-overlay-msg">
+                  <p style={{ fontSize: "2.5rem" }}>💥</p>
+                  <p className="ng-msg-title" style={{ color: "#ff4d6d" }}>¡Se acabó el tiempo!</p>
+                  <p className="ng-msg-sub" style={{ color: "#888", fontSize: "0.95rem", marginTop: 4 }}>
+                    Ultrón sobrevivió. Quedan {remaining} bots.
+                  </p>
+                  <p className="ng-msg-sub" style={{ marginTop: 4, fontSize: "0.8rem", color: "#666" }}>
+                    {hearts} &nbsp;{lives} {lives === 1 ? "vida restante" : "vidas restantes"}
+                  </p>
+                  <button className="btn btn-primary" style={{ marginTop: "1rem" }} onClick={revive}>
+                    Intentar de nuevo →
+                  </button>
+                </div>
+              )}
+
+              {noLives && (
+                <div className="ng-overlay-msg">
+                  <p style={{ fontSize: "2.5rem" }}>💀</p>
+                  <p className="ng-msg-title" style={{ color: "#ff4d6d" }}>Sin más vidas</p>
+                  <p className="ng-msg-sub" style={{ color: "#888", fontSize: "0.95rem", marginTop: 4 }}>
+                    Ultrón ganó esta vez. Game over definitivo.
+                  </p>
+                  <button className="btn btn-primary" style={{ marginTop: "1rem", opacity: 0.6 }} onClick={fullReset}>
+                    ↺ Empezar de cero (5 vidas)
                   </button>
                 </div>
               )}

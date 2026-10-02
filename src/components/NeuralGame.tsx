@@ -326,7 +326,7 @@ export function NeuralGame() {
         onClick={() => { setOpen(true); restart(); }}
         aria-label="No dejes morir a Jarvis"
       >
-        <span>🤖😇</span>
+        <span>🤖</span>
         <span className="mg-tab-label">Salva a Jarvis</span>
       </button>
 
