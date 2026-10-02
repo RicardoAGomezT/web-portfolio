@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const EMOJIS = ["🤖", "🧠", "💡", "🔥", "⚡", "🚀", "🎯", "💻", "🌐", "🔮", "✨", "🎲", "🏆", "💎", "🌟"];
+const EMOJIS = ["🤖", "🧠", "💡", "🔥", "⚡", "🚀", "🎯", "💻"];
 
 type Card = { id: number; emoji: string; flipped: boolean; matched: boolean };
 
@@ -117,7 +117,7 @@ export function MemoryGame() {
             <div className="mg-header">
               <div>
                 <h2 className="mg-title">Encuentra todos los pares</h2>
-                <p className="mg-subtitle">15 emojis · 30 cartas · ¿cuánto tardas?</p>
+                <p className="mg-subtitle">8 pares · 16 cartas · ¿cuánto tardas?</p>
               </div>
               <button className="mg-close" onClick={() => setOpen(false)} aria-label="Cerrar">✕</button>
             </div>
@@ -150,7 +150,7 @@ export function MemoryGame() {
                 <p className="mg-win-time">Tiempo: <strong>{formatTime(finalTime)}</strong></p>
                 <p className="mg-win-moves">Movidas: <strong>{moves}</strong></p>
                 <p className="mg-win-msg">
-                  {moves <= 20 ? "¡Memoria de elefante! 🧠" : moves <= 30 ? "¡Muy bien jugado! 🎯" : "¡Persistencia es clave! 🚀"}
+                  {moves <= 10 ? "¡Memoria de elefante! 🧠" : moves <= 16 ? "¡Muy bien jugado! 🎯" : "¡Persistencia es clave! 🚀"}
                 </p>
                 <button className="btn btn-primary" onClick={startGame} style={{marginTop:"1.5rem"}}>
                   Jugar de nuevo

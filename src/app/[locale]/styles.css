@@ -689,8 +689,10 @@
 
 .mg-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 .mg-card {
   aspect-ratio: 1;
@@ -760,9 +762,9 @@
   color: var(--accent);
 }
 
-@media (max-width: 560px) {
-  .mg-grid { grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .mg-card { font-size: 1.2rem; }
+@media (max-width: 480px) {
+  .mg-grid { grid-template-columns: repeat(4, 1fr); gap: 7px; }
+  .mg-card { font-size: 1.3rem; }
   .mg-modal { padding: 20px 16px 24px; }
   .mg-tab-label { display: none; }
 }
