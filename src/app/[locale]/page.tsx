@@ -25,7 +25,7 @@ export default function HomePage() {
             AI Engineer · Data Engineer
           </p>
           <p className="hero-bio">
-            5+ años en <strong>AWS</strong>. Diseño la capa de inteligencia
+            7 años en <strong>datos e IA</strong>. Diseño la capa de inteligencia
             que transforma infraestructura en sistemas que{" "}
             <strong>perciben, razonan y actúan</strong> — agentes autónomos,
             AIOps y pipelines que se gestionan solos en producción.
