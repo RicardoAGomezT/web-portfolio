@@ -245,6 +245,9 @@ export default function HomePage() {
             Bucaramanga, Colombia
           </span>
         </div>
+        <p style={{ textAlign: "center", fontSize: "0.68rem", color: "var(--muted)", fontStyle: "italic", marginTop: "18px", opacity: 0.7 }}>
+          Madurar es entender que Iron Man no era súper inteligente, solo tenía tokens ilimitados 😅
+        </p>
       </section>
 
       <MemoryGame />
@@ -254,7 +257,6 @@ export default function HomePage() {
       <footer className="site-footer">
         <span>© 2026 Ricardo Andrés Gómez Torres</span>
         <span>Bucaramanga, Colombia · Disponible para trabajo remoto</span>
-        <span className="footer-easter-egg">Madurar es entender que Iron Man no era súper inteligente, solo tenía tokens ilimitados 😅</span>
       </footer>
     </>
   );
