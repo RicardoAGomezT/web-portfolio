@@ -125,7 +125,7 @@ export default function HomePage() {
           {[
             {
               num: "01",
-              name: "🏦 Agentes IA en AVAL Digital Labs",
+              name: "🏦💜 Agentes IA en AVAL Digital Labs",
               desc: "Dos sistemas IA en producción para el Grupo AVAL: Armandito, chatbot RAG con conocimiento profundo de DevOps interno y lineamientos corporativos; y Orion, sistema agéntico que razona sobre el estado de los pipelines en Harness, detecta fallos y ejecuta remediaciones autónomas siguiendo las políticas del banco.",
               chips: ["RAG", "Harness", "Agentes", "AVAL"],
             },
@@ -143,7 +143,7 @@ export default function HomePage() {
             },
             {
               num: "04",
-              name: "🍫 Plataforma de Trazabilidad EUDR Cacao",
+              name: "🌴🍫 Plataforma de Trazabilidad EUDR Cacao",
               desc: "Sistema de trazabilidad basado en IA para exportadores de cacao en Santander que deben cumplir la regulación de deforestación de la UE. Geolocalización, IA documental y dashboards de cumplimiento.",
               chips: ["AWS", "Bedrock", "Geoespacial", "Compliance"],
             },
@@ -246,7 +246,7 @@ export default function HomePage() {
           </span>
         </div>
         <p style={{ textAlign: "center", fontSize: "0.68rem", color: "var(--accent)", fontStyle: "italic", marginTop: "18px", opacity: 0.8 }}>
-          Madurar es entender que Iron Man no era súper inteligente, solo tenía tokens ilimitados 😅
+          Fun fact: Iron Man no era súper inteligente, solo tenía tokens ilimitados 😅
         </p>
       </section>
 
