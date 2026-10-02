@@ -63,22 +63,6 @@ export function ContactForm() {
       </div>
 
       <div className="cf-field">
-        <label className="cf-label" htmlFor="cf-email">
-          Tu correo electrónico
-        </label>
-        <input
-          id="cf-email"
-          className="cf-input"
-          type="email"
-          placeholder="para poder responderte"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-          required
-          disabled={status === "sending"}
-        />
-      </div>
-
-      <div className="cf-field">
         <label className="cf-label" htmlFor="cf-project">
           Cuéntame sobre tu proyecto o idea 💡
         </label>
@@ -105,6 +89,22 @@ export function ContactForm() {
           placeholder="ej. arquitectura de IA, pipelines de datos, consultoría..."
           value={form.help}
           onChange={(e) => setForm({ ...form, help: e.target.value })}
+          required
+          disabled={status === "sending"}
+        />
+      </div>
+
+      <div className="cf-field">
+        <label className="cf-label" htmlFor="cf-email">
+          Tu correo electrónico
+        </label>
+        <input
+          id="cf-email"
+          className="cf-input"
+          type="email"
+          placeholder="para poder responderte"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
           required
           disabled={status === "sending"}
         />
