@@ -18,15 +18,53 @@
   gap: 24px;
 }
 .nav-logo {
-  font-family: var(--ff-d);
-  font-weight: 800;
-  font-size: 1.05rem;
-  letter-spacing: -0.025em;
-  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
   text-decoration: none;
   flex-shrink: 0;
+  padding: 6px 12px 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  transition: border-color 0.15s;
 }
-.nav-logo em { color: var(--accent); font-style: normal; }
+.nav-logo:hover { border-color: var(--accent); }
+
+.nav-logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--accent);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.nav-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.nav-logo-name {
+  font-family: var(--ff-d);
+  font-weight: 800;
+  font-size: 0.88rem;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1;
+}
+
+.nav-logo-role {
+  font-family: var(--ff-m);
+  font-size: 0.58rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+}
 
 .nav-links {
   flex: 1;
