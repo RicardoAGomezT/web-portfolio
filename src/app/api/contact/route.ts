@@ -3,9 +3,9 @@ import { Resend } from "resend";
 
 export async function POST(req: Request) {
   try {
-    const { name, project, help } = await req.json();
+    const { name, email, project, help } = await req.json();
 
-    if (!name || !project || !help) {
+    if (!name || !email || !project || !help) {
       return NextResponse.json({ error: "Campos incompletos" }, { status: 400 });
     }
 
@@ -25,6 +25,10 @@ export async function POST(req: Request) {
           <div style="background:#fff;border-radius:8px;padding:24px;margin-bottom:16px;">
             <p style="margin:0 0 6px;font-size:.75rem;color:#5b7899;text-transform:uppercase;letter-spacing:.08em;">¿Cómo te llamas?</p>
             <p style="margin:0;font-size:1rem;color:#080f1e;font-weight:600;">${name}</p>
+          </div>
+          <div style="background:#fff;border-radius:8px;padding:24px;margin-bottom:16px;">
+            <p style="margin:0 0 6px;font-size:.75rem;color:#5b7899;text-transform:uppercase;letter-spacing:.08em;">Correo de contacto</p>
+            <a href="mailto:${email}" style="margin:0;font-size:1rem;color:#0077B5;font-weight:600;">${email}</a>
           </div>
           <div style="background:#fff;border-radius:8px;padding:24px;margin-bottom:16px;">
             <p style="margin:0 0 6px;font-size:.75rem;color:#5b7899;text-transform:uppercase;letter-spacing:.08em;">Su proyecto o idea</p>

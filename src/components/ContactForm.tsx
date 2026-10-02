@@ -5,7 +5,7 @@ import { useState } from "react";
 type Status = "idle" | "sending" | "sent" | "error";
 
 export function ContactForm() {
-  const [form, setForm] = useState({ name: "", project: "", help: "" });
+  const [form, setForm] = useState({ name: "", email: "", project: "", help: "" });
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -63,6 +63,22 @@ export function ContactForm() {
       </div>
 
       <div className="cf-field">
+        <label className="cf-label" htmlFor="cf-email">
+          Tu correo electrónico
+        </label>
+        <input
+          id="cf-email"
+          className="cf-input"
+          type="email"
+          placeholder="para poder responderte"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          required
+          disabled={status === "sending"}
+        />
+      </div>
+
+      <div className="cf-field">
         <label className="cf-label" htmlFor="cf-project">
           Cuéntame sobre tu proyecto o idea 💡
         </label>
@@ -104,7 +120,7 @@ export function ContactForm() {
       <button
         className="btn btn-primary cf-submit"
         type="submit"
-        disabled={status === "sending" || !form.name || !form.project || !form.help}
+        disabled={status === "sending" || !form.name || !form.email || !form.project || !form.help}
       >
         {status === "sending" ? "Enviando…" : "Enviar mensaje →"}
       </button>
