@@ -8,9 +8,10 @@ type Particle = {
   r: number;
 };
 
-const COUNT = 80;
-const MAX_DIST = 130;
-const REPEL = 100;
+const COUNT = 60;
+const MAX_DIST = 150;
+const REPEL = 140;
+const BLAST = 220;
 
 function make(w: number, h: number): Particle[] {
   return Array.from({ length: COUNT }, () => ({
@@ -18,7 +19,7 @@ function make(w: number, h: number): Particle[] {
     y: Math.random() * h,
     vx: (Math.random() - 0.5) * 1.2,
     vy: (Math.random() - 0.5) * 1.2,
-    r: Math.random() * 2 + 1.5,
+    r: Math.random() * 3 + 4,
   }));
 }
 
@@ -132,7 +133,6 @@ export function ParticleGame() {
     const rect = canvasRef.current!.getBoundingClientRect();
     const cx = e.clientX - rect.left;
     const cy = e.clientY - rect.top;
-    const BLAST = 160;
     for (const p of particlesRef.current) {
       const dx = p.x - cx;
       const dy = p.y - cy;

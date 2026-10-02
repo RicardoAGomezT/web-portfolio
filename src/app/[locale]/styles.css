@@ -762,6 +762,39 @@
   .mg-tab-label { display: none; }
 }
 
+/* ── Neural Game ── */
+.ng-tab { top: calc(50% + 104px); }
+.ng-canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #080f1e;
+}
+.ng-overlay-msg {
+  position: absolute;
+  inset: 0;
+  background: rgba(8,15,30,0.88);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  padding: 24px;
+}
+.ng-msg-title {
+  font-family: var(--ff-d);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+}
+.ng-msg-sub { font-size: 0.85rem; color: rgba(255,255,255,0.65); margin: 0; line-height: 1.5; }
+.ng-hint { font-size: 0.75rem; color: var(--muted); text-align: center; margin: 0; }
+
 /* ── Particle Game ── */
 .pg-tab {
   top: calc(50% + 52px);
