@@ -91,7 +91,7 @@ export default function HomePage() {
             <p className="bento-label">IA &amp; Agentes</p>
             <div className="tags">
               {["AWS Bedrock", "AgentCore", "MCP", "LangChain", "LangGraph",
-                "Strands Agents", "A2A", "RAG Pipelines", "Pinecone"].map(tk => (
+                "Strands Agents", "A2A", "RAG Pipelines", "Pinecone", "Kiro", "Claude", "OpenCode"].map(tk => (
                 <span key={tk} className="tag">{tk}</span>
               ))}
             </div>
@@ -125,21 +125,27 @@ export default function HomePage() {
           {[
             {
               num: "01",
-              name: "Plataforma de Trazabilidad EUDR Cacao",
-              desc: "Sistema de trazabilidad basado en IA para exportadores de cacao en Santander que deben cumplir la regulación de deforestación de la UE. Geolocalización, IA documental y dashboards de cumplimiento.",
-              chips: ["AWS", "Bedrock", "Geoespacial", "Compliance"],
-            },
-            {
-              num: "02",
               name: "Agentes IA en AVAL Digital Labs",
               desc: "Dos sistemas IA en producción para el Grupo AVAL: Armandito, chatbot RAG con conocimiento profundo de DevOps interno y lineamientos corporativos; y Orion, sistema agéntico que razona sobre el estado de los pipelines en Harness, detecta fallos y ejecuta remediaciones autónomas siguiendo las políticas del banco.",
               chips: ["RAG", "Harness", "Agentes", "AVAL"],
             },
             {
-              num: "03",
+              num: "02",
               name: "Esta web + Asistente IA",
               desc: "Portafolio construido con Next.js 15 y Vercel. Incluye un asistente 'Pregúntale a Richie' con Claude Haiku en Amazon Bedrock, guardrails, OIDC y rate limiting sin access keys.",
               chips: ["Next.js", "Vercel", "Bedrock", "Terraform"],
+            },
+            {
+              num: "03",
+              name: "Harry & Eevee — IAs Personales",
+              desc: "Dos asistentes de IA personales construidos para uso propio: Harry, enfocado en productividad y razonamiento; y Eevee, orientada a creatividad y compañía. Ambos con memoria persistente, personalidad definida y acceso a herramientas — una exploración práctica de cómo la IA puede adaptarse a una persona específica.",
+              chips: ["Agentes", "Memoria", "Claude", "Personalización"],
+            },
+            {
+              num: "04",
+              name: "Plataforma de Trazabilidad EUDR Cacao",
+              desc: "Sistema de trazabilidad basado en IA para exportadores de cacao en Santander que deben cumplir la regulación de deforestación de la UE. Geolocalización, IA documental y dashboards de cumplimiento.",
+              chips: ["AWS", "Bedrock", "Geoespacial", "Compliance"],
             },
           ].map((p) => (
             <div key={p.num} className="proj-card reveal">
