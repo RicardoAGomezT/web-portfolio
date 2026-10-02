@@ -47,7 +47,7 @@ export default function HomePage() {
                 src="/linkedin_foto_perfil.jpg"
                 alt="Ricardo Gómez — AI Engineer"
                 fill
-                sizes="(max-width: 860px) 0px, 320px"
+                sizes="(max-width: 860px) 88px, 320px"
                 className="photo-img"
                 priority
               />
